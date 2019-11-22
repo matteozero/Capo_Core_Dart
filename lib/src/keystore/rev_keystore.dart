@@ -32,7 +32,7 @@ class REVKeystore extends PrivateKeyCryptoKeystore {
 
   factory REVKeystore.fromMap(Map map) {
     final cryptoMap = map['crypto'] as Map<String, dynamic>;
-    final crypto = Crypto.formMap(cryptoMap);
+    final crypto = Crypto.fromMap(cryptoMap);
     final address = map['address'];
     final id = map['id'];
     final version = map['version'];

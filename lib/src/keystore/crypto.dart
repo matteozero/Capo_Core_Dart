@@ -104,9 +104,9 @@ class Crypto {
     final cipherparams = Cipherparams.initRandomIV();
     final keyDerivator = ScryptKeyDerivator.deafult();
     final derivedKey = keyDerivator.deriveKey(password);
-    final encryptor = Crypto.encryptor(derivedKey, HEX.decode(cipherparams.iv));
+    final encryptor = Crypto.encryptor(Uint8List.view(derivedKey.buffer, 0, 16), HEX.decode(cipherparams.iv));
     final cipherText =
-        encryptor.process(Uint8List.fromList(privateKey.codeUnits));
+        encryptor.process(HEX.decode(privateKey));
     final mac = generateMac(derivedKey, cipherText);
 
     return Crypto(
@@ -139,18 +139,25 @@ class Crypto {
       ..init(false, ParametersWithIV(KeyParameter(key), iv));
   }
 
+    static CTRStreamCipher decryptor(Uint8List key, Uint8List iv) {
+    return CTRStreamCipher(AESFastEngine())
+      ..init(true, ParametersWithIV(KeyParameter(key), iv));
+  }
+
+  
+
   String privateKey(String password) {
     final decryptedMac = macFrom(password);
     if (decryptedMac != mac) {
       throw ArgumentError(PasswordError.incorrect);
     }
-    final derived = derivedKey(password);
-    final encryptor = Crypto.encryptor(derived, HEX.decode(cipherparams.iv));
-    final decryptStr = encryptor.process(HEX.decode(cipherText));
-    return String.fromCharCodes(decryptStr);
+    final derived = Uint8List.view(derivedKey(password).buffer, 0, 16);
+    final decryptor = Crypto.decryptor(derived, HEX.decode(cipherparams.iv));
+    final decryptStr = decryptor.process(HEX.decode(cipherText));
+    return HEX.encode(decryptStr);
   }
 
-  factory Crypto.formMap(Map map) {
+  factory Crypto.fromMap(Map map) {
     final cipher = map['cipher'];
     final ciphertext = map['ciphertext'];
     final kdf = map['kdf'];
