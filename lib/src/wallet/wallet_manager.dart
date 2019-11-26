@@ -59,7 +59,7 @@ class WalletManager {
   BasicWallet append(Keystore keystore) {
     final wallet = BasicWallet(keystore: keystore);
     if (findWalletByAddress(wallet.address) != null) {
-      throw ArgumentError(AddressError.address_already_exist);
+      throw AppError(type: AppErrorType.addressAlreadyExist);
     }
     wallets.add(wallet);
     walletsID.add(wallet.walletID);

@@ -49,10 +49,10 @@ class BasicWallet {
         final privateKeyCryptoKeystore = keystore as PrivateKeyCryptoKeystore;
         return privateKeyCryptoKeystore.decryptPrivateKey(password);
       } else {
-        throw ArgumentError(PasswordError.incorrect);
+        throw AppError(type: AppErrorType.passwordIncorrect);
       }
     }
-    throw ArgumentError(GenericError.operationUnsupported);
+    throw AppError(type:AppErrorType.operationUnsupported);
   }
 
   String exportMnemonic(String password) {
@@ -61,9 +61,9 @@ class BasicWallet {
         final encMnemonicKeystore = keystore as EncMnemonicKeystore;
         return encMnemonicKeystore.decryptMnemonic(password);
       }
-      throw ArgumentError(PasswordError.incorrect);
+      throw AppError(type: AppErrorType.passwordIncorrect);
     }
-    throw ArgumentError(GenericError.operationUnsupported);
+    throw AppError(type: AppErrorType.operationUnsupported);
   }
 
   bool verifyPassword(String password) {

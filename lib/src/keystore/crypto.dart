@@ -149,7 +149,7 @@ class Crypto {
   String privateKey(String password) {
     final decryptedMac = macFrom(password);
     if (decryptedMac != mac) {
-      throw ArgumentError(PasswordError.incorrect);
+      throw AppError(type: AppErrorType.passwordIncorrect);
     }
     final derived = Uint8List.view(derivedKey(password).buffer, 0, 16);
     final decryptor = Crypto.decryptor(derived, HEX.decode(cipherparams.iv));

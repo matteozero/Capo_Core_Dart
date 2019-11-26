@@ -4,19 +4,9 @@ import 'package:capo_core_dart/src/keystore/keystore.dart';
 import 'package:capo_core_dart/src/keystore/rev_key.dart';
 import 'package:capo_core_dart/src/wallet/wallet_meta.dart';
 import 'package:flutter/foundation.dart';
-class REVMnemonicKeystoreParams{
-      String password;
-       String mnemonic;
-       WalletMeta walletMeta;
-      String path = "m/44'/60'/0'/0/0";
-     REVMnemonicKeystoreParams({@required  this.password,
-      @required  this.mnemonic,
-      @required  this.walletMeta,
-      String path = "m/44'/60'/0'/0/0"}); 
-}
+
 class REVMnemonicKeystore extends EncMnemonicKeystore {
   @override
-  // TODO: implement crypto
   Crypto crypto;
 
   final String id;
@@ -34,9 +24,6 @@ class REVMnemonicKeystore extends EncMnemonicKeystore {
       this.version = 3,
       this.mnemonicPath});
 
-  static REVMnemonicKeystore initFromParams(REVMnemonicKeystoreParams params) {
-    return REVMnemonicKeystore.init(password: params.password,mnemonic: params.mnemonic,walletMeta: params.walletMeta,path: params.path);
-  }
 
   factory REVMnemonicKeystore.init(
       {@required String password,

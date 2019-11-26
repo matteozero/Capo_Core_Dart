@@ -8,3 +8,5 @@ export 'src/keystore/keystore.dart';
 export 'src/keystore/rev_keystore.dart';
 export 'src/keystore/rev_mnemonic_keystore.dart';
 export 'src/wallet/wallet_meta.dart';
+export 'src/utils/app_error.dart';
+export 'src/keystore/rev_key.dart';

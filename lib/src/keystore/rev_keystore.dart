@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 class REVKeystore extends PrivateKeyCryptoKeystore {
   @override
-  // TODO: implement crypto
   Crypto crypto;
 
   String id;

@@ -33,7 +33,7 @@ class EncryptedMessage {
   String decrypt(Crypto crypto, String password) {
     final decryptedMac = crypto.macFrom(password);
     if (decryptedMac != crypto.mac) {
-      throw ArgumentError(PasswordError.incorrect);
+      throw AppError(type: AppErrorType.passwordIncorrect);
     }
     final derivedKey = Uint8List.view(crypto
         .derivedKey(password)
