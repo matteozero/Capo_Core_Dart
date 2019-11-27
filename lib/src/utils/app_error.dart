@@ -4,7 +4,8 @@ enum AppErrorType {
   operationUnsupported,
   passwordIncorrect,
   addressAlreadyExist,
-  mnemonicInvalid 
+  mnemonicInvalid,
+  privateKeyInvalid
   }
 
 
