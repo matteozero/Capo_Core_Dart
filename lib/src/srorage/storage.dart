@@ -26,6 +26,7 @@ class Storage {
     final dir = await getApplicationDocumentsDirectory();
     final walletDirectory = Directory("${dir.path}/wallets");
     final exists = await walletDirectory.exists();
+    print("walletDirectory.path: ${walletDirectory.path}");
     if (exists) {
       return walletDirectory.path;
     } else {
@@ -42,6 +43,7 @@ class Storage {
 
   Future<File> flushWalletManager(WalletManager walletManager) async {
     final content = json.encode(walletManager.encode());
+    print("flushWalletManager: $content");
     return writeContent(content, identityFileName);
   }
 
@@ -52,6 +54,12 @@ class Storage {
   Future deleteFile(String fileName) async {
     final walletsDir = await walletsDirectory;
     final filePath = walletsDir + "/" + fileName;
+    final file = File(filePath);
+    return file.deleteSync();
+  }
+  Future deleteWalletManager() async {
+    final walletsDir = await walletsDirectory;
+    final filePath = walletsDir + "/" + identityFileName;
     final file = File(filePath);
     return file.deleteSync();
   }
@@ -82,11 +90,12 @@ class Storage {
   }
 
   Future<File> writeContent(String content, String fileName) async {
+    print("content: $content");
     final walletsDir = await walletsDirectory;
     final filePath = walletsDir + "/" + fileName;
     final file = File(filePath);
     final exists = file.existsSync();
-    if(!exists){
+    if (!exists) {
       file.createSync();
     }
     return file.writeAsString(content);

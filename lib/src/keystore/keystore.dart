@@ -47,7 +47,11 @@ abstract class PrivateKeyCryptoKeystore extends Keystore {
   }
 }
 
-abstract class EncMnemonicKeystore extends PrivateKeyCryptoKeystore {
+abstract class EncMnemonicKeystore extends Keystore {
+
+  String decryptPrivateKey(String password) {
+    return crypto.privateKey(password);
+  }
   EncryptedMessage encMnemonic;
   String mnemonicPath;
   String decryptMnemonic(String password) {
