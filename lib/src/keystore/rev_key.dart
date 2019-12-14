@@ -1,11 +1,9 @@
 import 'dart:typed_data';
-
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:capo_core_dart/capo_core_dart.dart';
 import 'package:capo_core_dart/src/rev_address/rev_address.dart';
 import 'package:capo_core_dart/src/utils/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:hex/hex.dart';
 
 int keyLength = 64;

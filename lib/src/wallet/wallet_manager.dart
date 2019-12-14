@@ -20,14 +20,52 @@ class WalletManager {
     return WalletManager(wallets: [], walletsID: []);
   }
 
-  BasicWallet importFromMnemonic(
-      {@required String mnemonic,
+  importFromMnemonic({
+    @required String password,
+    @required String mnemonic,
+    @required WalletMeta metadata,
+    @required VoidCallback successCallback,
+    @required MnemonicKeystoreErrorCallback errorCallback,
+    String path,
+  }) async {
+    REVMnemonicKeystore.createInBackground(
+        password: password,
+        mnemonic: mnemonic,
+        walletMeta: metadata,
+        successCallback: (keystore) {
+          try {
+            append(keystore);
+            successCallback();
+          } catch (error) {
+            errorCallback(error);
+          }
+        },errorCallback: (error){
+           errorCallback(error);
+        },);
+  }
+
+  void importFromPrivateKey(
+      {@required String password,
+      @required String privateKey,
       @required WalletMeta metadata,
-      @required String password,
+      @required VoidCallback successCallback,
+      @required KeystoreErrorCallback errorCallback,
       String path}) {
-    final keystore = REVMnemonicKeystore.init(
-        password: password, mnemonic: mnemonic, walletMeta: metadata);
-    return append(keystore);
+    REVKeystore.createInBackground(
+        password: password,
+        privateKey: privateKey,
+        walletMeta: metadata,
+        successCallback: (REVKeystore keystore) {
+          try {
+            append(keystore);
+            successCallback();
+          } catch (error) {
+            print("error:$error");
+            errorCallback(error);
+          }
+        },errorCallback: (error){
+          errorCallback(error);
+        });
   }
 
   static Future<WalletManager> tryToLaodWalletManager() {
@@ -42,16 +80,6 @@ class WalletManager {
     final wallets = await Storage.instance.loadWalletByIDs(walletsID);
     return WalletManager(
         currentWallet: currentWallet, wallets: wallets, walletsID: walletsID);
-  }
-
-  BasicWallet importFromPrivateKey(
-      {@required String privateKey,
-      @required WalletMeta metadata,
-      @required String password,
-      String path}) {
-    final keystore = REVKeystore.init(
-        password: password, privateKey: privateKey, walletMeta: metadata);
-    return append(keystore);
   }
 
   BasicWallet append(Keystore keystore) {
@@ -75,6 +103,13 @@ class WalletManager {
       return null;
     });
     return wallet;
+  }
+
+  Future switchWallet(BasicWallet wallet) async {
+    if (wallet.address != currentWallet.address) {
+      currentWallet = wallet;
+      await Storage.instance.flushWalletManager(this);
+    }
   }
 
   Future modifyWalletName(BasicWallet wallet, String name) async {

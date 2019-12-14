@@ -8,7 +8,7 @@ import "package:pointycastle/export.dart";
 const prefix = {"coinId": "000000", "version": "00"};
 final String alphabet =
     '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-final base58 = new Base(alphabet);
+final base58 =  Base(alphabet);
 
 class RevAddress {
   final String hex;
