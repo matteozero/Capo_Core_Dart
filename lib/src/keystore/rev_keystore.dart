@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:capo_core_dart/src/keystore/crypto.dart';
@@ -5,8 +6,6 @@ import 'package:capo_core_dart/src/keystore/keystore.dart';
 import 'package:capo_core_dart/src/keystore/rev_key.dart';
 import 'package:capo_core_dart/src/wallet/wallet_meta.dart';
 import 'package:flutter/cupertino.dart';
-typedef REVKeystoreCallback = Function(REVKeystore keystore);
-typedef KeystoreErrorCallback = Function(Exception error);
 
 class REVKeystore extends PrivateKeyCryptoKeystore {
   @override
@@ -33,7 +32,7 @@ class REVKeystore extends PrivateKeyCryptoKeystore {
         crypto: crypto, id: id, address: address, meta: walletMeta);
   }
 
-    static void threadTask(List<SendPort> commList) async {
+  static void threadTask(List<SendPort> commList) async {
     var sendPort = commList[0];
     var errorPort = commList[1];
     var isolateConPort = new ReceivePort();
@@ -49,36 +48,43 @@ class REVKeystore extends PrivateKeyCryptoKeystore {
     });
   }
 
-  static createInBackground(
-     {@required String password,
-      @required String privateKey,
-      @required WalletMeta walletMeta,
-      @required REVKeystoreCallback successCallback,
-      @required KeystoreErrorCallback errorCallback,
-      String path = "m/44'/60'/0'/0/0"}) {
-    SendPort isolateSendPort;
+  static createInBackground({
+    @required String password,
+    @required String privateKey,
+    @required WalletMeta walletMeta,
+  }) async {
     var errorPort = new ReceivePort();
-    var pwConPort = new ReceivePort();
+    var resultPort = new ReceivePort();
+    SendPort isolateSendPort;
 
-    Isolate.spawn(threadTask, [
-      pwConPort.sendPort,
+    final Isolate isolate = await Isolate.spawn(threadTask, [
+      resultPort.sendPort,
       errorPort.sendPort,
-    ]).then((isolate) {
-      errorPort.listen((error) {
-        errorCallback(error);
-      });
-      pwConPort.listen((data) {
-        if (isolateSendPort == null && data is SendPort) {
-          isolateSendPort = data;
-          isolateSendPort.send([password, privateKey, walletMeta]);
-        } else {
-          pwConPort.close();
-          errorPort.close();
-          isolate.kill();
-           successCallback(data);  
-        }
-      });
+    ]);
+    final Completer<REVKeystore> result = Completer<REVKeystore>();
+    errorPort.listen((dynamic errorData) {
+      if (result.isCompleted) {
+        Zone.current.handleUncaughtError(errorData, null);
+      } else {
+        result.completeError(errorData, null);
+      }
     });
+    resultPort.listen((dynamic resultData) {
+      if (isolateSendPort == null && resultData is SendPort) {
+        isolateSendPort = resultData;
+        isolateSendPort.send([password, privateKey, walletMeta]);
+      } else {
+        resultPort.close();
+        errorPort.close();
+        isolate.kill();
+        if (!result.isCompleted) result.complete(resultData);
+      }
+    });
+    await result.future;
+    resultPort.close();
+    errorPort.close();
+    isolate.kill();
+    return result.future;
   }
 
   factory REVKeystore.fromMap(Map map) {

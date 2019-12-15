@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:capo_core_dart/capo_core_dart.dart';
 import 'package:capo_core_dart/src/keystore/keystore.dart';
 import 'package:capo_core_dart/src/keystore/rev_keystore.dart';
@@ -20,52 +22,72 @@ class WalletManager {
     return WalletManager(wallets: [], walletsID: []);
   }
 
-  importFromMnemonic({
+  Future<void> importFromMnemonic({
     @required String password,
     @required String mnemonic,
     @required WalletMeta metadata,
-    @required VoidCallback successCallback,
-    @required MnemonicKeystoreErrorCallback errorCallback,
     String path,
   }) async {
+    final Completer<void> result = Completer<void>();
     REVMnemonicKeystore.createInBackground(
-        password: password,
-        mnemonic: mnemonic,
-        walletMeta: metadata,
-        successCallback: (keystore) {
-          try {
-            append(keystore);
-            successCallback();
-          } catch (error) {
-            errorCallback(error);
-          }
-        },errorCallback: (error){
-           errorCallback(error);
-        },);
+      password: password,
+      mnemonic: mnemonic,
+      walletMeta: metadata,
+    ).then((keystore) {
+      try {
+        append(keystore);
+      } catch (errorData,stack) {
+        if (result.isCompleted) {
+          Zone.current.handleUncaughtError(errorData, stack);
+        } else {
+          result.completeError(errorData, stack);
+        }
+      }
+      if (!result.isCompleted) result.complete();
+    }).catchError((errorData) {
+  
+      if (result.isCompleted) {
+        Zone.current.handleUncaughtError(errorData, null);
+      } else {
+        result.completeError(errorData, null);
+      }
+    });
+    await result.future;
+    return result.future;
   }
 
-  void importFromPrivateKey(
+Future<void>  importFromPrivateKey(
       {@required String password,
       @required String privateKey,
       @required WalletMeta metadata,
-      @required VoidCallback successCallback,
-      @required KeystoreErrorCallback errorCallback,
-      String path}) {
+     })  async {
+        final Completer<void> result = Completer<void>();
     REVKeystore.createInBackground(
-        password: password,
-        privateKey: privateKey,
-        walletMeta: metadata,
-        successCallback: (REVKeystore keystore) {
-          try {
-            append(keystore);
-            successCallback();
-          } catch (error) {
-            print("error:$error");
-            errorCallback(error);
-          }
-        },errorCallback: (error){
-          errorCallback(error);
-        });
+      password: password,
+      privateKey: privateKey,
+      walletMeta: metadata,
+    ).then((keystore) {
+      try {
+        append(keystore);
+      } catch (errorData) {
+        if (result.isCompleted) {
+          Zone.current.handleUncaughtError(errorData, null);
+        } else {
+          result.completeError(errorData, null);
+        }
+      }
+      if (!result.isCompleted) result.complete();
+    }).catchError((errorData) {
+  
+      if (result.isCompleted) {
+        Zone.current.handleUncaughtError(errorData, null);
+      } else {
+        result.completeError(errorData, null);
+      }
+    });
+    await result.future;
+    return result.future;
+   
   }
 
   static Future<WalletManager> tryToLaodWalletManager() {
@@ -82,7 +104,7 @@ class WalletManager {
         currentWallet: currentWallet, wallets: wallets, walletsID: walletsID);
   }
 
-  BasicWallet append(Keystore keystore) {
+  append(Keystore keystore) async {
     final wallet = BasicWallet(keystore: keystore);
     if (findWalletByAddress(wallet.address) != null) {
       throw AppError(type: AppErrorType.addressAlreadyExist);
@@ -90,9 +112,8 @@ class WalletManager {
     wallets.add(wallet);
     walletsID.add(wallet.walletID);
     this.currentWallet = wallet;
-    Storage.instance.flushWalletManager(this);
-    Storage.instance.flushWallet(wallet.keystore);
-    return wallet;
+    await Storage.instance.flushWalletManager(this);
+    await Storage.instance.flushWallet(wallet.keystore);
   }
 
   BasicWallet findWalletByAddress(String address) {

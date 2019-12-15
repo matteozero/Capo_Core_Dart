@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 import 'package:capo_core_dart/src/keystore/crypto.dart';
 import 'package:capo_core_dart/src/keystore/encrypted_message.dart';
@@ -5,9 +6,6 @@ import 'package:capo_core_dart/src/keystore/keystore.dart';
 import 'package:capo_core_dart/src/keystore/rev_key.dart';
 import 'package:capo_core_dart/src/wallet/wallet_meta.dart';
 import 'package:flutter/foundation.dart';
-
-typedef KeystoreSuccessCallback = Function(REVMnemonicKeystore keystore);
-typedef MnemonicKeystoreErrorCallback = Function(Exception error);
 
 class REVMnemonicKeystore extends EncMnemonicKeystore {
   @override
@@ -58,42 +56,52 @@ class REVMnemonicKeystore extends EncMnemonicKeystore {
         REVMnemonicKeystore keystore = REVMnemonicKeystore._init(
             password: data[0], mnemonic: data[1], walletMeta: data[2]);
         sendPort.send(keystore);
+        isolateConPort.close();
       } catch (e) {
         errorPort.send(e);
+        isolateConPort.close();
       }
     });
   }
 
-  static void createInBackground(
+  static Future<REVMnemonicKeystore> createInBackground(
       {@required String password,
       @required String mnemonic,
       @required WalletMeta walletMeta,
-      @required KeystoreSuccessCallback successCallback,
-      @required MnemonicKeystoreErrorCallback errorCallback,
-      String path = "m/44'/60'/0'/0/0"}) {
-    SendPort isolateSendPort;
+      String path = "m/44'/60'/0'/0/0"}) async {
     var errorPort = new ReceivePort();
-    var pwConPort = new ReceivePort();
+    var resultPort = new ReceivePort();
+    SendPort isolateSendPort;
 
-    Isolate.spawn(threadTask, [
-      pwConPort.sendPort,
+    final Isolate isolate = await Isolate.spawn(threadTask, [
+      resultPort.sendPort,
       errorPort.sendPort,
-    ]).then((isolate) {
-      errorPort.listen((error) {
-        errorCallback(error);
-      });
-      pwConPort.listen((data) {
-        if (isolateSendPort == null && data is SendPort) {
-          isolateSendPort = data;
-          isolateSendPort.send([password, mnemonic, walletMeta]);
-        } else {
-          pwConPort.close();
-          errorPort.close();
-          isolate.kill();
-           successCallback(data);  
-        }
-      });
+    ]);
+    final Completer<REVMnemonicKeystore> result =
+        Completer<REVMnemonicKeystore>();
+    errorPort.listen((dynamic errorData) {
+      if (result.isCompleted) {
+        Zone.current.handleUncaughtError(errorData, null);
+      } else {
+        result.completeError(errorData, null);
+      }
     });
+    resultPort.listen((dynamic resultData) {
+      if (isolateSendPort == null && resultData is SendPort) {
+        isolateSendPort = resultData;
+        isolateSendPort.send([password, mnemonic, walletMeta]);
+      } else {
+        resultPort.close();
+        errorPort.close();
+        isolate.kill();
+        if (!result.isCompleted) result.complete(resultData);
+      }
+    });
+    await result.future;
+    resultPort.close();
+    errorPort.close();
+    isolate.kill();
+    return result.future;
   }
 
   factory REVMnemonicKeystore.fromMap(Map map) {
