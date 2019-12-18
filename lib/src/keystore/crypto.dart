@@ -120,11 +120,11 @@ class Crypto {
     return keyDerivator.deriveKey(password);
   }
 
-  String macFrom(String password) {
+   String macFrom(String password) {
     return macForDerivedKey(derivedKey(password));
   }
 
-  String macForDerivedKey(Uint8List key) {
+   String macForDerivedKey(Uint8List key) {
     return generateMac(key, HEX.decode(cipherText));
   }
 

@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:isolate';
 import 'package:capo_core_dart/src/keystore/keystore.dart';
 import 'package:capo_core_dart/src/keystore/rev_keystore.dart';
 import 'package:capo_core_dart/src/keystore/rev_mnemonic_keystore.dart';
@@ -43,30 +45,25 @@ class BasicWallet {
     return json.encode(map);
   }
 
-  String privateKey(String password) {
-    if (keystore is PrivateKeyCryptoKeystore) {
-      if (verifyPassword(password)) {
-        final privateKeyCryptoKeystore = keystore as PrivateKeyCryptoKeystore;
-        return privateKeyCryptoKeystore.decryptPrivateKey(password);
+  Future<String> exportPrivateKey(String password) async {
+    if (await verifyPassword(password)) {
+      return keystore.decryptPrivateKey(password);
+    }
+    throw AppError(type: AppErrorType.passwordIncorrect);
+  }
+
+  Future<String> exportMnemonic(String password) async {
+    if (await verifyPassword(password)) {
+      if (keystore is REVMnemonicKeystore) {
+        return (keystore as REVMnemonicKeystore).decryptMnemonic(password);
       } else {
-        throw AppError(type: AppErrorType.passwordIncorrect);
+        throw AppError(type: AppErrorType.operationUnsupported);
       }
     }
-    throw AppError(type:AppErrorType.operationUnsupported);
+    throw AppError(type: AppErrorType.passwordIncorrect);
   }
 
-  String exportMnemonic(String password) {
-    if (keystore is EncMnemonicKeystore) {
-      if (verifyPassword(password)) {
-        final encMnemonicKeystore = keystore as EncMnemonicKeystore;
-        return encMnemonicKeystore.decryptMnemonic(password);
-      }
-      throw AppError(type: AppErrorType.passwordIncorrect);
-    }
-    throw AppError(type: AppErrorType.operationUnsupported);
-  }
-
-  bool verifyPassword(String password) {
+  Future<bool> verifyPassword(String password) {
     return keystore.verify(password);
   }
 }

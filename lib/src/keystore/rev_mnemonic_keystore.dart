@@ -46,7 +46,7 @@ class REVMnemonicKeystore extends EncMnemonicKeystore {
         meta: walletMeta);
   }
 
-  static void threadTask(List<SendPort> commList) async {
+  static void _threadTask(List<SendPort> commList) async {
     var sendPort = commList[0];
     var errorPort = commList[1];
     var isolateConPort = new ReceivePort();
@@ -73,7 +73,7 @@ class REVMnemonicKeystore extends EncMnemonicKeystore {
     var resultPort = new ReceivePort();
     SendPort isolateSendPort;
 
-    final Isolate isolate = await Isolate.spawn(threadTask, [
+    final Isolate isolate = await Isolate.spawn(_threadTask, [
       resultPort.sendPort,
       errorPort.sendPort,
     ]);
@@ -91,9 +91,6 @@ class REVMnemonicKeystore extends EncMnemonicKeystore {
         isolateSendPort = resultData;
         isolateSendPort.send([password, mnemonic, walletMeta]);
       } else {
-        resultPort.close();
-        errorPort.close();
-        isolate.kill();
         if (!result.isCompleted) result.complete(resultData);
       }
     });
