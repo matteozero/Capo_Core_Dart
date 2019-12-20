@@ -313,19 +313,145 @@ class BondStatusQuery extends $pb.GeneratedMessage {
   void clearPublicKey() => clearField(1);
 }
 
+class BondInfo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('BondInfo', package: const $pb.PackageName('casper'), createEmptyInstance: create)
+    ..aOS(1, 'validator')
+    ..aInt64(2, 'stake')
+    ..hasRequiredFields = false
+  ;
+
+  BondInfo._() : super();
+  factory BondInfo() => create();
+  factory BondInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory BondInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  BondInfo clone() => BondInfo()..mergeFromMessage(this);
+  BondInfo copyWith(void Function(BondInfo) updates) => super.copyWith((message) => updates(message as BondInfo));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static BondInfo create() => BondInfo._();
+  BondInfo createEmptyInstance() => create();
+  static $pb.PbList<BondInfo> createRepeated() => $pb.PbList<BondInfo>();
+  static BondInfo getDefault() => _defaultInstance ??= create()..freeze();
+  static BondInfo _defaultInstance;
+
+  $core.String get validator => $_getS(0, '');
+  set validator($core.String v) { $_setString(0, v); }
+  $core.bool hasValidator() => $_has(0);
+  void clearValidator() => clearField(1);
+
+  Int64 get stake => $_getI64(1);
+  set stake(Int64 v) { $_setInt64(1, v); }
+  $core.bool hasStake() => $_has(1);
+  void clearStake() => clearField(2);
+}
+
+class DeployInfo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DeployInfo', package: const $pb.PackageName('casper'), createEmptyInstance: create)
+    ..aOS(1, 'deployer')
+    ..aOS(2, 'term')
+    ..aInt64(3, 'timestamp')
+    ..aOS(4, 'sig')
+    ..aOS(5, 'sigAlgorithm', protoName: 'sigAlgorithm')
+    ..aInt64(7, 'phloPrice', protoName: 'phloPrice')
+    ..aInt64(8, 'phloLimit', protoName: 'phloLimit')
+    ..aInt64(9, 'validAfterBlockNumber', protoName: 'validAfterBlockNumber')
+    ..a<Int64>(10, 'cost', $pb.PbFieldType.OU6, defaultOrMaker: Int64.ZERO)
+    ..aOB(11, 'errored')
+    ..aOS(12, 'systemDeployError', protoName: 'systemDeployError')
+    ..hasRequiredFields = false
+  ;
+
+  DeployInfo._() : super();
+  factory DeployInfo() => create();
+  factory DeployInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeployInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  DeployInfo clone() => DeployInfo()..mergeFromMessage(this);
+  DeployInfo copyWith(void Function(DeployInfo) updates) => super.copyWith((message) => updates(message as DeployInfo));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static DeployInfo create() => DeployInfo._();
+  DeployInfo createEmptyInstance() => create();
+  static $pb.PbList<DeployInfo> createRepeated() => $pb.PbList<DeployInfo>();
+  static DeployInfo getDefault() => _defaultInstance ??= create()..freeze();
+  static DeployInfo _defaultInstance;
+
+  $core.String get deployer => $_getS(0, '');
+  set deployer($core.String v) { $_setString(0, v); }
+  $core.bool hasDeployer() => $_has(0);
+  void clearDeployer() => clearField(1);
+
+  $core.String get term => $_getS(1, '');
+  set term($core.String v) { $_setString(1, v); }
+  $core.bool hasTerm() => $_has(1);
+  void clearTerm() => clearField(2);
+
+  Int64 get timestamp => $_getI64(2);
+  set timestamp(Int64 v) { $_setInt64(2, v); }
+  $core.bool hasTimestamp() => $_has(2);
+  void clearTimestamp() => clearField(3);
+
+  $core.String get sig => $_getS(3, '');
+  set sig($core.String v) { $_setString(3, v); }
+  $core.bool hasSig() => $_has(3);
+  void clearSig() => clearField(4);
+
+  $core.String get sigAlgorithm => $_getS(4, '');
+  set sigAlgorithm($core.String v) { $_setString(4, v); }
+  $core.bool hasSigAlgorithm() => $_has(4);
+  void clearSigAlgorithm() => clearField(5);
+
+  Int64 get phloPrice => $_getI64(5);
+  set phloPrice(Int64 v) { $_setInt64(5, v); }
+  $core.bool hasPhloPrice() => $_has(5);
+  void clearPhloPrice() => clearField(7);
+
+  Int64 get phloLimit => $_getI64(6);
+  set phloLimit(Int64 v) { $_setInt64(6, v); }
+  $core.bool hasPhloLimit() => $_has(6);
+  void clearPhloLimit() => clearField(8);
+
+  Int64 get validAfterBlockNumber => $_getI64(7);
+  set validAfterBlockNumber(Int64 v) { $_setInt64(7, v); }
+  $core.bool hasValidAfterBlockNumber() => $_has(7);
+  void clearValidAfterBlockNumber() => clearField(9);
+
+  Int64 get cost => $_getI64(8);
+  set cost(Int64 v) { $_setInt64(8, v); }
+  $core.bool hasCost() => $_has(8);
+  void clearCost() => clearField(10);
+
+  $core.bool get errored => $_get(9, false);
+  set errored($core.bool v) { $_setBool(9, v); }
+  $core.bool hasErrored() => $_has(9);
+  void clearErrored() => clearField(11);
+
+  $core.String get systemDeployError => $_getS(10, '');
+  set systemDeployError($core.String v) { $_setString(10, v); }
+  $core.bool hasSystemDeployError() => $_has(10);
+  void clearSystemDeployError() => clearField(12);
+}
+
 class LightBlockInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('LightBlockInfo', package: const $pb.PackageName('casper'), createEmptyInstance: create)
     ..aOS(1, 'blockHash', protoName: 'blockHash')
-    ..aOS(2, 'blockSize', protoName: 'blockSize')
-    ..aInt64(3, 'blockNumber', protoName: 'blockNumber')
-    ..aInt64(4, 'version')
-    ..a<$core.int>(5, 'deployCount', $pb.PbFieldType.O3, protoName: 'deployCount')
-    ..aOS(6, 'tupleSpaceHash', protoName: 'tupleSpaceHash')
-    ..aInt64(7, 'timestamp')
-    ..a<$core.double>(8, 'faultTolerance', $pb.PbFieldType.OF, protoName: 'faultTolerance')
-    ..aOS(9, 'mainParentHash', protoName: 'mainParentHash')
-    ..pPS(10, 'parentsHashList', protoName: 'parentsHashList')
-    ..aOS(11, 'sender')
+    ..aOS(2, 'sender')
+    ..aInt64(3, 'seqNum', protoName: 'seqNum')
+    ..aOS(4, 'sig')
+    ..aOS(5, 'sigAlgorithm', protoName: 'sigAlgorithm')
+    ..aOS(6, 'shardId', protoName: 'shardId')
+    ..a<$core.List<$core.int>>(7, 'extraBytes', $pb.PbFieldType.OY, protoName: 'extraBytes')
+    ..aInt64(8, 'version')
+    ..aInt64(9, 'timestamp')
+    ..a<$core.List<$core.int>>(10, 'headerExtraBytes', $pb.PbFieldType.OY, protoName: 'headerExtraBytes')
+    ..pPS(11, 'parentsHashList', protoName: 'parentsHashList')
+    ..aInt64(12, 'blockNumber', protoName: 'blockNumber')
+    ..aOS(13, 'preStateHash', protoName: 'preStateHash')
+    ..aOS(14, 'postStateHash', protoName: 'postStateHash')
+    ..a<$core.List<$core.int>>(15, 'bodyExtraBytes', $pb.PbFieldType.OY, protoName: 'bodyExtraBytes')
+    ..pc<BondInfo>(16, 'bonds', $pb.PbFieldType.PM, subBuilder: BondInfo.create)
+    ..aOS(17, 'blockSize', protoName: 'blockSize')
+    ..a<$core.int>(18, 'deployCount', $pb.PbFieldType.O3, protoName: 'deployCount')
+    ..a<$core.double>(19, 'faultTolerance', $pb.PbFieldType.OF, protoName: 'faultTolerance')
     ..hasRequiredFields = false
   ;
 
@@ -348,70 +474,95 @@ class LightBlockInfo extends $pb.GeneratedMessage {
   $core.bool hasBlockHash() => $_has(0);
   void clearBlockHash() => clearField(1);
 
-  $core.String get blockSize => $_getS(1, '');
-  set blockSize($core.String v) { $_setString(1, v); }
-  $core.bool hasBlockSize() => $_has(1);
-  void clearBlockSize() => clearField(2);
+  $core.String get sender => $_getS(1, '');
+  set sender($core.String v) { $_setString(1, v); }
+  $core.bool hasSender() => $_has(1);
+  void clearSender() => clearField(2);
 
-  Int64 get blockNumber => $_getI64(2);
-  set blockNumber(Int64 v) { $_setInt64(2, v); }
-  $core.bool hasBlockNumber() => $_has(2);
-  void clearBlockNumber() => clearField(3);
+  Int64 get seqNum => $_getI64(2);
+  set seqNum(Int64 v) { $_setInt64(2, v); }
+  $core.bool hasSeqNum() => $_has(2);
+  void clearSeqNum() => clearField(3);
 
-  Int64 get version => $_getI64(3);
-  set version(Int64 v) { $_setInt64(3, v); }
-  $core.bool hasVersion() => $_has(3);
-  void clearVersion() => clearField(4);
+  $core.String get sig => $_getS(3, '');
+  set sig($core.String v) { $_setString(3, v); }
+  $core.bool hasSig() => $_has(3);
+  void clearSig() => clearField(4);
 
-  $core.int get deployCount => $_get(4, 0);
-  set deployCount($core.int v) { $_setSignedInt32(4, v); }
-  $core.bool hasDeployCount() => $_has(4);
-  void clearDeployCount() => clearField(5);
+  $core.String get sigAlgorithm => $_getS(4, '');
+  set sigAlgorithm($core.String v) { $_setString(4, v); }
+  $core.bool hasSigAlgorithm() => $_has(4);
+  void clearSigAlgorithm() => clearField(5);
 
-  $core.String get tupleSpaceHash => $_getS(5, '');
-  set tupleSpaceHash($core.String v) { $_setString(5, v); }
-  $core.bool hasTupleSpaceHash() => $_has(5);
-  void clearTupleSpaceHash() => clearField(6);
+  $core.String get shardId => $_getS(5, '');
+  set shardId($core.String v) { $_setString(5, v); }
+  $core.bool hasShardId() => $_has(5);
+  void clearShardId() => clearField(6);
 
-  Int64 get timestamp => $_getI64(6);
-  set timestamp(Int64 v) { $_setInt64(6, v); }
-  $core.bool hasTimestamp() => $_has(6);
-  void clearTimestamp() => clearField(7);
+  $core.List<$core.int> get extraBytes => $_getN(6);
+  set extraBytes($core.List<$core.int> v) { $_setBytes(6, v); }
+  $core.bool hasExtraBytes() => $_has(6);
+  void clearExtraBytes() => clearField(7);
 
-  $core.double get faultTolerance => $_getN(7);
-  set faultTolerance($core.double v) { $_setFloat(7, v); }
-  $core.bool hasFaultTolerance() => $_has(7);
-  void clearFaultTolerance() => clearField(8);
+  Int64 get version => $_getI64(7);
+  set version(Int64 v) { $_setInt64(7, v); }
+  $core.bool hasVersion() => $_has(7);
+  void clearVersion() => clearField(8);
 
-  $core.String get mainParentHash => $_getS(8, '');
-  set mainParentHash($core.String v) { $_setString(8, v); }
-  $core.bool hasMainParentHash() => $_has(8);
-  void clearMainParentHash() => clearField(9);
+  Int64 get timestamp => $_getI64(8);
+  set timestamp(Int64 v) { $_setInt64(8, v); }
+  $core.bool hasTimestamp() => $_has(8);
+  void clearTimestamp() => clearField(9);
 
-  $core.List<$core.String> get parentsHashList => $_getList(9);
+  $core.List<$core.int> get headerExtraBytes => $_getN(9);
+  set headerExtraBytes($core.List<$core.int> v) { $_setBytes(9, v); }
+  $core.bool hasHeaderExtraBytes() => $_has(9);
+  void clearHeaderExtraBytes() => clearField(10);
 
-  $core.String get sender => $_getS(10, '');
-  set sender($core.String v) { $_setString(10, v); }
-  $core.bool hasSender() => $_has(10);
-  void clearSender() => clearField(11);
+  $core.List<$core.String> get parentsHashList => $_getList(10);
+
+  Int64 get blockNumber => $_getI64(11);
+  set blockNumber(Int64 v) { $_setInt64(11, v); }
+  $core.bool hasBlockNumber() => $_has(11);
+  void clearBlockNumber() => clearField(12);
+
+  $core.String get preStateHash => $_getS(12, '');
+  set preStateHash($core.String v) { $_setString(12, v); }
+  $core.bool hasPreStateHash() => $_has(12);
+  void clearPreStateHash() => clearField(13);
+
+  $core.String get postStateHash => $_getS(13, '');
+  set postStateHash($core.String v) { $_setString(13, v); }
+  $core.bool hasPostStateHash() => $_has(13);
+  void clearPostStateHash() => clearField(14);
+
+  $core.List<$core.int> get bodyExtraBytes => $_getN(14);
+  set bodyExtraBytes($core.List<$core.int> v) { $_setBytes(14, v); }
+  $core.bool hasBodyExtraBytes() => $_has(14);
+  void clearBodyExtraBytes() => clearField(15);
+
+  $core.List<BondInfo> get bonds => $_getList(15);
+
+  $core.String get blockSize => $_getS(16, '');
+  set blockSize($core.String v) { $_setString(16, v); }
+  $core.bool hasBlockSize() => $_has(16);
+  void clearBlockSize() => clearField(17);
+
+  $core.int get deployCount => $_get(17, 0);
+  set deployCount($core.int v) { $_setSignedInt32(17, v); }
+  $core.bool hasDeployCount() => $_has(17);
+  void clearDeployCount() => clearField(18);
+
+  $core.double get faultTolerance => $_getN(18);
+  set faultTolerance($core.double v) { $_setFloat(18, v); }
+  $core.bool hasFaultTolerance() => $_has(18);
+  void clearFaultTolerance() => clearField(19);
 }
 
 class BlockInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('BlockInfo', package: const $pb.PackageName('casper'), createEmptyInstance: create)
-    ..aOS(1, 'blockHash', protoName: 'blockHash')
-    ..aOS(2, 'blockSize', protoName: 'blockSize')
-    ..aInt64(3, 'blockNumber', protoName: 'blockNumber')
-    ..aInt64(4, 'version')
-    ..a<$core.int>(5, 'deployCount', $pb.PbFieldType.O3, protoName: 'deployCount')
-    ..aOS(6, 'tupleSpaceHash', protoName: 'tupleSpaceHash')
-    ..aInt64(7, 'timestamp')
-    ..a<$core.double>(8, 'faultTolerance', $pb.PbFieldType.OF, protoName: 'faultTolerance')
-    ..aOS(9, 'mainParentHash', protoName: 'mainParentHash')
-    ..pPS(10, 'parentsHashList', protoName: 'parentsHashList')
-    ..aOS(11, 'sender')
-    ..aOS(12, 'shardId', protoName: 'shardId')
-    ..pPS(13, 'bondsValidatorList', protoName: 'bondsValidatorList')
-    ..pPS(14, 'deployCost', protoName: 'deployCost')
+    ..a<LightBlockInfo>(1, 'blockInfo', $pb.PbFieldType.OM, protoName: 'blockInfo', defaultOrMaker: LightBlockInfo.getDefault, subBuilder: LightBlockInfo.create)
+    ..pc<DeployInfo>(2, 'deploys', $pb.PbFieldType.PM, subBuilder: DeployInfo.create)
     ..hasRequiredFields = false
   ;
 
@@ -429,66 +580,12 @@ class BlockInfo extends $pb.GeneratedMessage {
   static BlockInfo getDefault() => _defaultInstance ??= create()..freeze();
   static BlockInfo _defaultInstance;
 
-  $core.String get blockHash => $_getS(0, '');
-  set blockHash($core.String v) { $_setString(0, v); }
-  $core.bool hasBlockHash() => $_has(0);
-  void clearBlockHash() => clearField(1);
+  LightBlockInfo get blockInfo => $_getN(0);
+  set blockInfo(LightBlockInfo v) { setField(1, v); }
+  $core.bool hasBlockInfo() => $_has(0);
+  void clearBlockInfo() => clearField(1);
 
-  $core.String get blockSize => $_getS(1, '');
-  set blockSize($core.String v) { $_setString(1, v); }
-  $core.bool hasBlockSize() => $_has(1);
-  void clearBlockSize() => clearField(2);
-
-  Int64 get blockNumber => $_getI64(2);
-  set blockNumber(Int64 v) { $_setInt64(2, v); }
-  $core.bool hasBlockNumber() => $_has(2);
-  void clearBlockNumber() => clearField(3);
-
-  Int64 get version => $_getI64(3);
-  set version(Int64 v) { $_setInt64(3, v); }
-  $core.bool hasVersion() => $_has(3);
-  void clearVersion() => clearField(4);
-
-  $core.int get deployCount => $_get(4, 0);
-  set deployCount($core.int v) { $_setSignedInt32(4, v); }
-  $core.bool hasDeployCount() => $_has(4);
-  void clearDeployCount() => clearField(5);
-
-  $core.String get tupleSpaceHash => $_getS(5, '');
-  set tupleSpaceHash($core.String v) { $_setString(5, v); }
-  $core.bool hasTupleSpaceHash() => $_has(5);
-  void clearTupleSpaceHash() => clearField(6);
-
-  Int64 get timestamp => $_getI64(6);
-  set timestamp(Int64 v) { $_setInt64(6, v); }
-  $core.bool hasTimestamp() => $_has(6);
-  void clearTimestamp() => clearField(7);
-
-  $core.double get faultTolerance => $_getN(7);
-  set faultTolerance($core.double v) { $_setFloat(7, v); }
-  $core.bool hasFaultTolerance() => $_has(7);
-  void clearFaultTolerance() => clearField(8);
-
-  $core.String get mainParentHash => $_getS(8, '');
-  set mainParentHash($core.String v) { $_setString(8, v); }
-  $core.bool hasMainParentHash() => $_has(8);
-  void clearMainParentHash() => clearField(9);
-
-  $core.List<$core.String> get parentsHashList => $_getList(9);
-
-  $core.String get sender => $_getS(10, '');
-  set sender($core.String v) { $_setString(10, v); }
-  $core.bool hasSender() => $_has(10);
-  void clearSender() => clearField(11);
-
-  $core.String get shardId => $_getS(11, '');
-  set shardId($core.String v) { $_setString(11, v); }
-  $core.bool hasShardId() => $_has(11);
-  void clearShardId() => clearField(12);
-
-  $core.List<$core.String> get bondsValidatorList => $_getList(12);
-
-  $core.List<$core.String> get deployCost => $_getList(13);
+  $core.List<DeployInfo> get deploys => $_getList(1);
 }
 
 class DataWithBlockInfo extends $pb.GeneratedMessage {

@@ -60,7 +60,6 @@ class Par extends $pb.GeneratedMessage {
 
   $core.bool get connectiveUsed => $_get(8, false);
   set connectiveUsed($core.bool v) { $_setBool(8, v); }
-
   $core.bool hasConnectiveUsed() => $_has(8);
   void clearConnectiveUsed() => clearField(10);
 

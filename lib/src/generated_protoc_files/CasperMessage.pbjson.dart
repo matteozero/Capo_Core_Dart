@@ -118,6 +118,7 @@ const BlockHashMessageProto$json = const {
   '1': 'BlockHashMessageProto',
   '2': const [
     const {'1': 'hash', '3': 1, '4': 1, '5': 12, '10': 'hash'},
+    const {'1': 'blockCreator', '3': 2, '4': 1, '5': 12, '10': 'blockCreator'},
   ],
   '7': const {},
 };
@@ -167,8 +168,8 @@ const ProcessedDeployProto$json = const {
     const {'1': 'deploy', '3': 1, '4': 1, '5': 11, '6': '.casper.DeployDataProto', '10': 'deploy'},
     const {'1': 'cost', '3': 2, '4': 1, '5': 11, '6': '.PCost', '10': 'cost'},
     const {'1': 'deployLog', '3': 3, '4': 3, '5': 11, '6': '.casper.EventProto', '10': 'deployLog'},
-    const {'1': 'paymentLog', '3': 4, '4': 3, '5': 11, '6': '.casper.EventProto', '10': 'paymentLog'},
     const {'1': 'errored', '3': 5, '4': 1, '5': 8, '10': 'errored'},
+    const {'1': 'systemDeployError', '3': 6, '4': 1, '5': 9, '10': 'systemDeployError'},
   ],
 };
 

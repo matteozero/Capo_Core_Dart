@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:isolate';
-import 'package:capo_core_dart/src/keystore/keystore.dart';
-import 'package:capo_core_dart/src/keystore/rev_keystore.dart';
-import 'package:capo_core_dart/src/keystore/rev_mnemonic_keystore.dart';
+
 import 'package:capo_core_dart/src/utils/app_error.dart';
+import 'package:capo_core_dart/src/wallet/keystore/keystore.dart';
+import 'package:capo_core_dart/src/wallet/keystore/rev_keystore.dart';
+import 'package:capo_core_dart/src/wallet/keystore/rev_mnemonic_keystore.dart';
 import 'package:capo_core_dart/src/wallet/wallet_meta.dart';
 import 'package:flutter/foundation.dart';
 

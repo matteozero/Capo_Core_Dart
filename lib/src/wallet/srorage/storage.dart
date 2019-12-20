@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
-import 'package:capo_core_dart/src/keystore/keystore.dart';
 import 'package:capo_core_dart/src/wallet/basic_wallet.dart';
+import 'package:capo_core_dart/src/wallet/keystore/keystore.dart';
 import 'package:capo_core_dart/src/wallet/wallet_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -55,6 +55,7 @@ class Storage {
     final file = File(filePath);
     return file.deleteSync();
   }
+
   Future deleteWalletManager() async {
     final walletsDir = await walletsDirectory;
     final filePath = walletsDir + "/" + identityFileName;

@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:capo_core_dart/capo_core_dart.dart';
-import 'package:capo_core_dart/src/keystore/keystore.dart';
-import 'package:capo_core_dart/src/keystore/rev_keystore.dart';
-import 'package:capo_core_dart/src/keystore/rev_mnemonic_keystore.dart';
-import 'package:capo_core_dart/src/srorage/storage.dart';
 import 'package:capo_core_dart/src/utils/app_error.dart';
+import 'package:capo_core_dart/src/wallet//srorage/storage.dart';
+import 'package:capo_core_dart/src/wallet/keystore/keystore.dart';
+import 'package:capo_core_dart/src/wallet/keystore/rev_keystore.dart';
+import 'package:capo_core_dart/src/wallet/keystore/rev_mnemonic_keystore.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'basic_wallet.dart';
@@ -36,7 +35,7 @@ class WalletManager {
     ).then((keystore) {
       try {
         append(keystore);
-      } catch (errorData,stack) {
+      } catch (errorData, stack) {
         if (result.isCompleted) {
           Zone.current.handleUncaughtError(errorData, stack);
         } else {
@@ -45,7 +44,6 @@ class WalletManager {
       }
       if (!result.isCompleted) result.complete();
     }).catchError((errorData) {
-  
       if (result.isCompleted) {
         Zone.current.handleUncaughtError(errorData, null);
       } else {
@@ -56,12 +54,12 @@ class WalletManager {
     return result.future;
   }
 
-Future<void>  importFromPrivateKey(
-      {@required String password,
-      @required String privateKey,
-      @required WalletMeta metadata,
-     })  async {
-        final Completer<void> result = Completer<void>();
+  Future<void> importFromPrivateKey({
+    @required String password,
+    @required String privateKey,
+    @required WalletMeta metadata,
+  }) async {
+    final Completer<void> result = Completer<void>();
     REVKeystore.createInBackground(
       password: password,
       privateKey: privateKey,
@@ -78,7 +76,6 @@ Future<void>  importFromPrivateKey(
       }
       if (!result.isCompleted) result.complete();
     }).catchError((errorData) {
-  
       if (result.isCompleted) {
         Zone.current.handleUncaughtError(errorData, null);
       } else {
@@ -87,7 +84,6 @@ Future<void>  importFromPrivateKey(
     });
     await result.future;
     return result.future;
-   
   }
 
   static Future<WalletManager> tryToLaodWalletManager() {

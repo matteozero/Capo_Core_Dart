@@ -2,9 +2,9 @@ import 'dart:core';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:capo_core_dart/src/keystore/crypto.dart';
 import 'package:capo_core_dart/src/utils/app_error.dart';
 import 'package:capo_core_dart/src/utils/random_bridge.dart';
+import 'package:capo_core_dart/src/wallet/keystore/crypto.dart';
 import 'package:hex/hex.dart';
 
 class EncryptedMessage {
@@ -17,13 +17,12 @@ class EncryptedMessage {
     return EncryptedMessage(encStr: map['encStr'], nonce: map['nonce']);
   }
 
-  factory EncryptedMessage.create(Crypto crypto, String password,
-      String message) {
+  factory EncryptedMessage.create(
+      Crypto crypto, String password, String message) {
     final dartRandom = RandomBridge(Random.secure());
     final nonce = dartRandom.nextBytes(128 ~/ 8);
-    final derivedKey = Uint8List.view(crypto
-        .derivedKey(password)
-        .buffer, 0, 16);
+    final derivedKey =
+        Uint8List.view(crypto.derivedKey(password).buffer, 0, 16);
     final encStr = Crypto.encryptor(derivedKey, nonce)
         .process(Uint8List.fromList(message.codeUnits));
     return EncryptedMessage(
@@ -35,9 +34,8 @@ class EncryptedMessage {
     if (decryptedMac != crypto.mac) {
       throw AppError(type: AppErrorType.passwordIncorrect);
     }
-    final derivedKey = Uint8List.view(crypto
-        .derivedKey(password)
-        .buffer, 0, 16);
+    final derivedKey =
+        Uint8List.view(crypto.derivedKey(password).buffer, 0, 16);
 
     final decryptor = Crypto.decryptor(derivedKey, HEX.decode(nonce));
     final decryptStr = decryptor.process(HEX.decode(encStr));

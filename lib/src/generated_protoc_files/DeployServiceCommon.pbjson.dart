@@ -81,40 +81,61 @@ const BondStatusQuery$json = const {
   ],
 };
 
+const BondInfo$json = const {
+  '1': 'BondInfo',
+  '2': const [
+    const {'1': 'validator', '3': 1, '4': 1, '5': 9, '10': 'validator'},
+    const {'1': 'stake', '3': 2, '4': 1, '5': 3, '10': 'stake'},
+  ],
+};
+
+const DeployInfo$json = const {
+  '1': 'DeployInfo',
+  '2': const [
+    const {'1': 'deployer', '3': 1, '4': 1, '5': 9, '10': 'deployer'},
+    const {'1': 'term', '3': 2, '4': 1, '5': 9, '10': 'term'},
+    const {'1': 'timestamp', '3': 3, '4': 1, '5': 3, '10': 'timestamp'},
+    const {'1': 'sig', '3': 4, '4': 1, '5': 9, '10': 'sig'},
+    const {'1': 'sigAlgorithm', '3': 5, '4': 1, '5': 9, '10': 'sigAlgorithm'},
+    const {'1': 'phloPrice', '3': 7, '4': 1, '5': 3, '10': 'phloPrice'},
+    const {'1': 'phloLimit', '3': 8, '4': 1, '5': 3, '10': 'phloLimit'},
+    const {'1': 'validAfterBlockNumber', '3': 9, '4': 1, '5': 3, '10': 'validAfterBlockNumber'},
+    const {'1': 'cost', '3': 10, '4': 1, '5': 4, '10': 'cost'},
+    const {'1': 'errored', '3': 11, '4': 1, '5': 8, '10': 'errored'},
+    const {'1': 'systemDeployError', '3': 12, '4': 1, '5': 9, '10': 'systemDeployError'},
+  ],
+};
+
 const LightBlockInfo$json = const {
   '1': 'LightBlockInfo',
   '2': const [
     const {'1': 'blockHash', '3': 1, '4': 1, '5': 9, '10': 'blockHash'},
-    const {'1': 'blockSize', '3': 2, '4': 1, '5': 9, '10': 'blockSize'},
-    const {'1': 'blockNumber', '3': 3, '4': 1, '5': 3, '10': 'blockNumber'},
-    const {'1': 'version', '3': 4, '4': 1, '5': 3, '10': 'version'},
-    const {'1': 'deployCount', '3': 5, '4': 1, '5': 5, '10': 'deployCount'},
-    const {'1': 'tupleSpaceHash', '3': 6, '4': 1, '5': 9, '10': 'tupleSpaceHash'},
-    const {'1': 'timestamp', '3': 7, '4': 1, '5': 3, '10': 'timestamp'},
-    const {'1': 'faultTolerance', '3': 8, '4': 1, '5': 2, '10': 'faultTolerance'},
-    const {'1': 'mainParentHash', '3': 9, '4': 1, '5': 9, '10': 'mainParentHash'},
-    const {'1': 'parentsHashList', '3': 10, '4': 3, '5': 9, '10': 'parentsHashList'},
-    const {'1': 'sender', '3': 11, '4': 1, '5': 9, '10': 'sender'},
+    const {'1': 'sender', '3': 2, '4': 1, '5': 9, '10': 'sender'},
+    const {'1': 'seqNum', '3': 3, '4': 1, '5': 3, '10': 'seqNum'},
+    const {'1': 'sig', '3': 4, '4': 1, '5': 9, '10': 'sig'},
+    const {'1': 'sigAlgorithm', '3': 5, '4': 1, '5': 9, '10': 'sigAlgorithm'},
+    const {'1': 'shardId', '3': 6, '4': 1, '5': 9, '10': 'shardId'},
+    const {'1': 'extraBytes', '3': 7, '4': 1, '5': 12, '10': 'extraBytes'},
+    const {'1': 'version', '3': 8, '4': 1, '5': 3, '10': 'version'},
+    const {'1': 'timestamp', '3': 9, '4': 1, '5': 3, '10': 'timestamp'},
+    const {'1': 'headerExtraBytes', '3': 10, '4': 1, '5': 12, '10': 'headerExtraBytes'},
+    const {'1': 'parentsHashList', '3': 11, '4': 3, '5': 9, '10': 'parentsHashList'},
+    const {'1': 'blockNumber', '3': 12, '4': 1, '5': 3, '10': 'blockNumber'},
+    const {'1': 'preStateHash', '3': 13, '4': 1, '5': 9, '10': 'preStateHash'},
+    const {'1': 'postStateHash', '3': 14, '4': 1, '5': 9, '10': 'postStateHash'},
+    const {'1': 'bodyExtraBytes', '3': 15, '4': 1, '5': 12, '10': 'bodyExtraBytes'},
+    const {'1': 'bonds', '3': 16, '4': 3, '5': 11, '6': '.casper.BondInfo', '10': 'bonds'},
+    const {'1': 'blockSize', '3': 17, '4': 1, '5': 9, '10': 'blockSize'},
+    const {'1': 'deployCount', '3': 18, '4': 1, '5': 5, '10': 'deployCount'},
+    const {'1': 'faultTolerance', '3': 19, '4': 1, '5': 2, '10': 'faultTolerance'},
   ],
 };
 
 const BlockInfo$json = const {
   '1': 'BlockInfo',
   '2': const [
-    const {'1': 'blockHash', '3': 1, '4': 1, '5': 9, '10': 'blockHash'},
-    const {'1': 'blockSize', '3': 2, '4': 1, '5': 9, '10': 'blockSize'},
-    const {'1': 'blockNumber', '3': 3, '4': 1, '5': 3, '10': 'blockNumber'},
-    const {'1': 'version', '3': 4, '4': 1, '5': 3, '10': 'version'},
-    const {'1': 'deployCount', '3': 5, '4': 1, '5': 5, '10': 'deployCount'},
-    const {'1': 'tupleSpaceHash', '3': 6, '4': 1, '5': 9, '10': 'tupleSpaceHash'},
-    const {'1': 'timestamp', '3': 7, '4': 1, '5': 3, '10': 'timestamp'},
-    const {'1': 'faultTolerance', '3': 8, '4': 1, '5': 2, '10': 'faultTolerance'},
-    const {'1': 'mainParentHash', '3': 9, '4': 1, '5': 9, '10': 'mainParentHash'},
-    const {'1': 'parentsHashList', '3': 10, '4': 3, '5': 9, '10': 'parentsHashList'},
-    const {'1': 'sender', '3': 11, '4': 1, '5': 9, '10': 'sender'},
-    const {'1': 'shardId', '3': 12, '4': 1, '5': 9, '10': 'shardId'},
-    const {'1': 'bondsValidatorList', '3': 13, '4': 3, '5': 9, '10': 'bondsValidatorList'},
-    const {'1': 'deployCost', '3': 14, '4': 3, '5': 9, '10': 'deployCost'},
+    const {'1': 'blockInfo', '3': 1, '4': 1, '5': 11, '6': '.casper.LightBlockInfo', '10': 'blockInfo'},
+    const {'1': 'deploys', '3': 2, '4': 3, '5': 11, '6': '.casper.DeployInfo', '10': 'deploys'},
   ],
 };
 

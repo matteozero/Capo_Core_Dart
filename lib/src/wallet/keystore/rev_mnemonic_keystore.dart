@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'package:capo_core_dart/src/keystore/crypto.dart';
-import 'package:capo_core_dart/src/keystore/encrypted_message.dart';
-import 'package:capo_core_dart/src/keystore/keystore.dart';
-import 'package:capo_core_dart/src/keystore/rev_key.dart';
+
+import 'package:capo_core_dart/src/wallet/keystore/crypto.dart';
+import 'package:capo_core_dart/src/wallet/keystore/encrypted_message.dart';
+import 'package:capo_core_dart/src/wallet/keystore/keystore.dart';
+import 'package:capo_core_dart/src/wallet/keystore/rev_key.dart';
 import 'package:capo_core_dart/src/wallet/wallet_meta.dart';
 import 'package:flutter/foundation.dart';
 

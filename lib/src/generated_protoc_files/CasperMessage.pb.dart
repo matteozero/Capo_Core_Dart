@@ -417,6 +417,7 @@ class BlockMessageProto extends $pb.GeneratedMessage {
 class BlockHashMessageProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('BlockHashMessageProto', package: const $pb.PackageName('casper'), createEmptyInstance: create)
     ..a<$core.List<$core.int>>(1, 'hash', $pb.PbFieldType.OY)
+    ..a<$core.List<$core.int>>(2, 'blockCreator', $pb.PbFieldType.OY, protoName: 'blockCreator')
     ..hasRequiredFields = false
   ;
 
@@ -438,6 +439,11 @@ class BlockHashMessageProto extends $pb.GeneratedMessage {
   set hash($core.List<$core.int> v) { $_setBytes(0, v); }
   $core.bool hasHash() => $_has(0);
   void clearHash() => clearField(1);
+
+  $core.List<$core.int> get blockCreator => $_getN(1);
+  set blockCreator($core.List<$core.int> v) { $_setBytes(1, v); }
+  $core.bool hasBlockCreator() => $_has(1);
+  void clearBlockCreator() => clearField(2);
 }
 
 class BlockMetadataInternal extends $pb.GeneratedMessage {
@@ -613,8 +619,8 @@ class ProcessedDeployProto extends $pb.GeneratedMessage {
     ..a<DeployDataProto>(1, 'deploy', $pb.PbFieldType.OM, defaultOrMaker: DeployDataProto.getDefault, subBuilder: DeployDataProto.create)
     ..a<$0.PCost>(2, 'cost', $pb.PbFieldType.OM, defaultOrMaker: $0.PCost.getDefault, subBuilder: $0.PCost.create)
     ..pc<EventProto>(3, 'deployLog', $pb.PbFieldType.PM, protoName: 'deployLog', subBuilder: EventProto.create)
-    ..pc<EventProto>(4, 'paymentLog', $pb.PbFieldType.PM, protoName: 'paymentLog', subBuilder: EventProto.create)
     ..aOB(5, 'errored')
+    ..aOS(6, 'systemDeployError', protoName: 'systemDeployError')
     ..hasRequiredFields = false
   ;
 
@@ -644,12 +650,15 @@ class ProcessedDeployProto extends $pb.GeneratedMessage {
 
   $core.List<EventProto> get deployLog => $_getList(2);
 
-  $core.List<EventProto> get paymentLog => $_getList(3);
-
-  $core.bool get errored => $_get(4, false);
-  set errored($core.bool v) { $_setBool(4, v); }
-  $core.bool hasErrored() => $_has(4);
+  $core.bool get errored => $_get(3, false);
+  set errored($core.bool v) { $_setBool(3, v); }
+  $core.bool hasErrored() => $_has(3);
   void clearErrored() => clearField(5);
+
+  $core.String get systemDeployError => $_getS(4, '');
+  set systemDeployError($core.String v) { $_setString(4, v); }
+  $core.bool hasSystemDeployError() => $_has(4);
+  void clearSystemDeployError() => clearField(6);
 }
 
 class ProcessedSystemDeployProto extends $pb.GeneratedMessage {
