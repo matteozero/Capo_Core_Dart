@@ -7,6 +7,7 @@ import 'package:capo_core_dart/src/generated_protoc_files/CasperMessage.pb.dart'
 import 'package:capo_core_dart/src/utils/numbers.dart';
 import 'package:capo_core_dart/src/utils/utils.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/cupertino.dart';
 import "package:pointycastle/export.dart";
 
 final ECDomainParameters _params = ECCurve_secp256k1();
@@ -19,15 +20,23 @@ List<int> encodeToDER(ECSignature signature) {
   return seq.encodedBytes;
 }
 
-DeployDataProto sign(DeployDataProto data, String privateKey) {
+DeployDataProto sign(
+    {@required Int64 blockNumber,
+    @required DeployDataProto unSignData,
+    @required String privateKey}) {
   final privateKeyInt = hexToInt(privateKey);
   ECPrivateKey ecPrivateKey = ECPrivateKey(privateKeyInt, _params);
-  DeployDataProto signData = data.clone();
+  DeployDataProto signData = unSignData.clone();
   final timestamp = signData.timestamp != 0
       ? signData.timestamp
       : Int64(DateTime.now().millisecondsSinceEpoch);
   signData.clearSigAlgorithm();
   signData.timestamp = timestamp;
+  signData.phloLimit = Int64(100000);
+  signData.phloPrice = Int64(1000);
+  if (blockNumber != 0) {
+    signData.validAfterBlockNumber = blockNumber;
+  }
 
   final blake2b = Blake2bDigest(digestSize: 32);
   blake2b.reset();
@@ -46,7 +55,5 @@ DeployDataProto sign(DeployDataProto data, String privateKey) {
   signData.deployer = puk;
   signData.sig = sig;
   signData.sigAlgorithm = "secp256k1";
-  signData.validAfterBlockNumber = Int64(0);
-
   return signData;
 }

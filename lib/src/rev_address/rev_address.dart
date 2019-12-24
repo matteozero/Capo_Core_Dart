@@ -8,7 +8,7 @@ import "package:pointycastle/export.dart";
 const prefix = {"coinId": "000000", "version": "00"};
 final String alphabet =
     '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-final base58 =  Base(alphabet);
+final base58 = Base(alphabet);
 
 class RevAddress {
   final String hex;
@@ -35,6 +35,8 @@ class RevAddress {
   }
 
   static String getAddressFromEth({Uint8List ethAddressData}) {
+    print("ethAddress:${HEX.encode(ethAddressData)}");
+
     if (ethAddressData.length != 20) return "";
     final ethHash = keccak256(ethAddressData);
     final payload = prefix['coinId'] + prefix['version'] + HEX.encode(ethHash);
