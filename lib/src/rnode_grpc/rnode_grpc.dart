@@ -9,7 +9,6 @@ import 'package:capo_core_dart/src/generated_protoc_files/RhoTypes.pb.dart';
 import 'package:capo_core_dart/src/rsign/rsign.dart' as rSign;
 import 'package:flutter/cupertino.dart';
 import 'package:grpc/grpc.dart';
-import 'package:hex/hex.dart';
 
 class RNodeGRPC {
   String host;
@@ -38,7 +37,15 @@ class RNodeGRPC {
     _proposeService = ProposeServiceClient(channel);
   }
 
-  Future sendDeploy(
+  Future<ExploratoryDeployResponse> sendExploratoryDeploy(
+      {@required String deployCode}) async {
+    var params = ExploratoryDeployQuery();
+    params.term = deployCode;
+    var response = await _deployService.exploratoryDeploy(params);
+    return response;
+  }
+
+  Future<List<int>> sendDeploy(
       {@required String deployCode, @required String privateKey}) async {
     final blocksQuery = BlocksQuery();
     blocksQuery.depth = 1;
@@ -50,27 +57,19 @@ class RNodeGRPC {
     data.term = deployCode;
     final signedData = rSign.sign(
         blockNumber: blockNumber, unSignData: data, privateKey: privateKey);
-    var _ =
-        await _deployService.doDeploy(signedData).then((deployResult) async {
-      print("deployResult:$deployResult");
-      var p = PrintUnmatchedSendsQuery();
-      p.printUnmatchedSends = true;
-      final _ = await _proposeService.propose(p).then((value) async {
-        await getDataForDeploy(signedData);
-      }).catchError((error) {
-        print("error:$error");
-      });
+    var _ = await _deployService.doDeploy(signedData);
+    var p = PrintUnmatchedSendsQuery();
+    await _proposeService.propose(p).then((proposeResult) {
+      if (proposeResult.error.messages.isNotEmpty) {
+        throw Exception(proposeResult.error.messages.first);
+      }
     });
-    return null;
+    return signedData.sig;
   }
 
-//  signData.deployer = puk;
-//  signData.sig = sig;
-//  signData.sigAlgorithm = "secp256k1";
-  Future getDataForDeploy(DeployDataProto signedData) async {
-    print("signedData.sig\n" + HEX.encode(signedData.sig));
+  Future<ListeningNameDataResponse> getDataForDeploy(List<int> deployId) async {
     var gDeployId = GDeployId();
-    gDeployId.sig = signedData.sig;
+    gDeployId.sig = deployId;
     var g = GUnforgeable();
     g.gDeployIdBody = gDeployId;
     var name = Par();
@@ -78,13 +77,6 @@ class RNodeGRPC {
     var dataAtNameQuery = DataAtNameQuery();
     dataAtNameQuery.depth = -1;
     dataAtNameQuery.name = name;
-
-    return await _deployService
-        .listenForDataAtName(dataAtNameQuery)
-        .then((value) {
-      print("listenForDataAtName reslut:$value");
-    }).catchError((error) {
-      print("error:$error");
-    });
+    return _deployService.listenForDataAtName(dataAtNameQuery);
   }
 }

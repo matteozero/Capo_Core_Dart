@@ -173,11 +173,35 @@ const ProcessedDeployProto$json = const {
   ],
 };
 
+const SlashSystemDeployDataProto$json = const {
+  '1': 'SlashSystemDeployDataProto',
+  '2': const [
+    const {'1': 'invalidBlockHash', '3': 1, '4': 1, '5': 12, '10': 'invalidBlockHash'},
+    const {'1': 'issuerPublicKey', '3': 2, '4': 1, '5': 12, '10': 'issuerPublicKey'},
+  ],
+};
+
+const CloseBlockSystemDeployDataProto$json = const {
+  '1': 'CloseBlockSystemDeployDataProto',
+};
+
+const SystemDeployDataProto$json = const {
+  '1': 'SystemDeployDataProto',
+  '2': const [
+    const {'1': 'slashSystemDeploy', '3': 1, '4': 1, '5': 11, '6': '.casper.SlashSystemDeployDataProto', '9': 0, '10': 'slashSystemDeploy'},
+    const {'1': 'closeBlockSystemDeploy', '3': 2, '4': 1, '5': 11, '6': '.casper.CloseBlockSystemDeployDataProto', '9': 0, '10': 'closeBlockSystemDeploy'},
+  ],
+  '8': const [
+    const {'1': 'systemDeploy'},
+  ],
+};
+
 const ProcessedSystemDeployProto$json = const {
   '1': 'ProcessedSystemDeployProto',
   '2': const [
-    const {'1': 'deployLog', '3': 1, '4': 3, '5': 11, '6': '.casper.EventProto', '10': 'deployLog'},
-    const {'1': 'errorMsg', '3': 2, '4': 1, '5': 9, '10': 'errorMsg'},
+    const {'1': 'systemDeploy', '3': 1, '4': 1, '5': 11, '6': '.casper.SystemDeployDataProto', '10': 'systemDeploy'},
+    const {'1': 'deployLog', '3': 2, '4': 3, '5': 11, '6': '.casper.EventProto', '10': 'deployLog'},
+    const {'1': 'errorMsg', '3': 3, '4': 1, '5': 9, '10': 'errorMsg'},
   ],
 };
 
@@ -186,7 +210,8 @@ const BodyProto$json = const {
   '2': const [
     const {'1': 'state', '3': 1, '4': 1, '5': 11, '6': '.casper.RChainStateProto', '10': 'state'},
     const {'1': 'deploys', '3': 2, '4': 3, '5': 11, '6': '.casper.ProcessedDeployProto', '10': 'deploys'},
-    const {'1': 'extraBytes', '3': 3, '4': 1, '5': 12, '10': 'extraBytes'},
+    const {'1': 'systemDeploys', '3': 3, '4': 3, '5': 11, '6': '.casper.ProcessedSystemDeployProto', '10': 'systemDeploys'},
+    const {'1': 'extraBytes', '3': 4, '4': 1, '5': 12, '10': 'extraBytes'},
   ],
 };
 

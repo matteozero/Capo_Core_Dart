@@ -81,6 +81,13 @@ const BondStatusQuery$json = const {
   ],
 };
 
+const ExploratoryDeployQuery$json = const {
+  '1': 'ExploratoryDeployQuery',
+  '2': const [
+    const {'1': 'term', '3': 1, '4': 1, '5': 9, '10': 'term'},
+  ],
+};
+
 const BondInfo$json = const {
   '1': 'BondInfo',
   '2': const [

@@ -661,10 +661,110 @@ class ProcessedDeployProto extends $pb.GeneratedMessage {
   void clearSystemDeployError() => clearField(6);
 }
 
+class SlashSystemDeployDataProto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SlashSystemDeployDataProto', package: const $pb.PackageName('casper'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, 'invalidBlockHash', $pb.PbFieldType.OY, protoName: 'invalidBlockHash')
+    ..a<$core.List<$core.int>>(2, 'issuerPublicKey', $pb.PbFieldType.OY, protoName: 'issuerPublicKey')
+    ..hasRequiredFields = false
+  ;
+
+  SlashSystemDeployDataProto._() : super();
+  factory SlashSystemDeployDataProto() => create();
+  factory SlashSystemDeployDataProto.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SlashSystemDeployDataProto.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  SlashSystemDeployDataProto clone() => SlashSystemDeployDataProto()..mergeFromMessage(this);
+  SlashSystemDeployDataProto copyWith(void Function(SlashSystemDeployDataProto) updates) => super.copyWith((message) => updates(message as SlashSystemDeployDataProto));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SlashSystemDeployDataProto create() => SlashSystemDeployDataProto._();
+  SlashSystemDeployDataProto createEmptyInstance() => create();
+  static $pb.PbList<SlashSystemDeployDataProto> createRepeated() => $pb.PbList<SlashSystemDeployDataProto>();
+  static SlashSystemDeployDataProto getDefault() => _defaultInstance ??= create()..freeze();
+  static SlashSystemDeployDataProto _defaultInstance;
+
+  $core.List<$core.int> get invalidBlockHash => $_getN(0);
+  set invalidBlockHash($core.List<$core.int> v) { $_setBytes(0, v); }
+  $core.bool hasInvalidBlockHash() => $_has(0);
+  void clearInvalidBlockHash() => clearField(1);
+
+  $core.List<$core.int> get issuerPublicKey => $_getN(1);
+  set issuerPublicKey($core.List<$core.int> v) { $_setBytes(1, v); }
+  $core.bool hasIssuerPublicKey() => $_has(1);
+  void clearIssuerPublicKey() => clearField(2);
+}
+
+class CloseBlockSystemDeployDataProto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CloseBlockSystemDeployDataProto', package: const $pb.PackageName('casper'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  CloseBlockSystemDeployDataProto._() : super();
+  factory CloseBlockSystemDeployDataProto() => create();
+  factory CloseBlockSystemDeployDataProto.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CloseBlockSystemDeployDataProto.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CloseBlockSystemDeployDataProto clone() => CloseBlockSystemDeployDataProto()..mergeFromMessage(this);
+  CloseBlockSystemDeployDataProto copyWith(void Function(CloseBlockSystemDeployDataProto) updates) => super.copyWith((message) => updates(message as CloseBlockSystemDeployDataProto));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CloseBlockSystemDeployDataProto create() => CloseBlockSystemDeployDataProto._();
+  CloseBlockSystemDeployDataProto createEmptyInstance() => create();
+  static $pb.PbList<CloseBlockSystemDeployDataProto> createRepeated() => $pb.PbList<CloseBlockSystemDeployDataProto>();
+  static CloseBlockSystemDeployDataProto getDefault() => _defaultInstance ??= create()..freeze();
+  static CloseBlockSystemDeployDataProto _defaultInstance;
+}
+
+enum SystemDeployDataProto_SystemDeploy {
+  slashSystemDeploy, 
+  closeBlockSystemDeploy, 
+  notSet
+}
+
+class SystemDeployDataProto extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, SystemDeployDataProto_SystemDeploy> _SystemDeployDataProto_SystemDeployByTag = {
+    1 : SystemDeployDataProto_SystemDeploy.slashSystemDeploy,
+    2 : SystemDeployDataProto_SystemDeploy.closeBlockSystemDeploy,
+    0 : SystemDeployDataProto_SystemDeploy.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SystemDeployDataProto', package: const $pb.PackageName('casper'), createEmptyInstance: create)
+    ..oo(0, [1, 2])
+    ..a<SlashSystemDeployDataProto>(1, 'slashSystemDeploy', $pb.PbFieldType.OM, protoName: 'slashSystemDeploy', defaultOrMaker: SlashSystemDeployDataProto.getDefault, subBuilder: SlashSystemDeployDataProto.create)
+    ..a<CloseBlockSystemDeployDataProto>(2, 'closeBlockSystemDeploy', $pb.PbFieldType.OM, protoName: 'closeBlockSystemDeploy', defaultOrMaker: CloseBlockSystemDeployDataProto.getDefault, subBuilder: CloseBlockSystemDeployDataProto.create)
+    ..hasRequiredFields = false
+  ;
+
+  SystemDeployDataProto._() : super();
+  factory SystemDeployDataProto() => create();
+  factory SystemDeployDataProto.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SystemDeployDataProto.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  SystemDeployDataProto clone() => SystemDeployDataProto()..mergeFromMessage(this);
+  SystemDeployDataProto copyWith(void Function(SystemDeployDataProto) updates) => super.copyWith((message) => updates(message as SystemDeployDataProto));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SystemDeployDataProto create() => SystemDeployDataProto._();
+  SystemDeployDataProto createEmptyInstance() => create();
+  static $pb.PbList<SystemDeployDataProto> createRepeated() => $pb.PbList<SystemDeployDataProto>();
+  static SystemDeployDataProto getDefault() => _defaultInstance ??= create()..freeze();
+  static SystemDeployDataProto _defaultInstance;
+
+  SystemDeployDataProto_SystemDeploy whichSystemDeploy() => _SystemDeployDataProto_SystemDeployByTag[$_whichOneof(0)];
+  void clearSystemDeploy() => clearField($_whichOneof(0));
+
+  SlashSystemDeployDataProto get slashSystemDeploy => $_getN(0);
+  set slashSystemDeploy(SlashSystemDeployDataProto v) { setField(1, v); }
+  $core.bool hasSlashSystemDeploy() => $_has(0);
+  void clearSlashSystemDeploy() => clearField(1);
+
+  CloseBlockSystemDeployDataProto get closeBlockSystemDeploy => $_getN(1);
+  set closeBlockSystemDeploy(CloseBlockSystemDeployDataProto v) { setField(2, v); }
+  $core.bool hasCloseBlockSystemDeploy() => $_has(1);
+  void clearCloseBlockSystemDeploy() => clearField(2);
+}
+
 class ProcessedSystemDeployProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ProcessedSystemDeployProto', package: const $pb.PackageName('casper'), createEmptyInstance: create)
-    ..pc<EventProto>(1, 'deployLog', $pb.PbFieldType.PM, protoName: 'deployLog', subBuilder: EventProto.create)
-    ..aOS(2, 'errorMsg', protoName: 'errorMsg')
+    ..a<SystemDeployDataProto>(1, 'systemDeploy', $pb.PbFieldType.OM, protoName: 'systemDeploy', defaultOrMaker: SystemDeployDataProto.getDefault, subBuilder: SystemDeployDataProto.create)
+    ..pc<EventProto>(2, 'deployLog', $pb.PbFieldType.PM, protoName: 'deployLog', subBuilder: EventProto.create)
+    ..aOS(3, 'errorMsg', protoName: 'errorMsg')
     ..hasRequiredFields = false
   ;
 
@@ -682,19 +782,25 @@ class ProcessedSystemDeployProto extends $pb.GeneratedMessage {
   static ProcessedSystemDeployProto getDefault() => _defaultInstance ??= create()..freeze();
   static ProcessedSystemDeployProto _defaultInstance;
 
-  $core.List<EventProto> get deployLog => $_getList(0);
+  SystemDeployDataProto get systemDeploy => $_getN(0);
+  set systemDeploy(SystemDeployDataProto v) { setField(1, v); }
+  $core.bool hasSystemDeploy() => $_has(0);
+  void clearSystemDeploy() => clearField(1);
 
-  $core.String get errorMsg => $_getS(1, '');
-  set errorMsg($core.String v) { $_setString(1, v); }
-  $core.bool hasErrorMsg() => $_has(1);
-  void clearErrorMsg() => clearField(2);
+  $core.List<EventProto> get deployLog => $_getList(1);
+
+  $core.String get errorMsg => $_getS(2, '');
+  set errorMsg($core.String v) { $_setString(2, v); }
+  $core.bool hasErrorMsg() => $_has(2);
+  void clearErrorMsg() => clearField(3);
 }
 
 class BodyProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('BodyProto', package: const $pb.PackageName('casper'), createEmptyInstance: create)
     ..a<RChainStateProto>(1, 'state', $pb.PbFieldType.OM, defaultOrMaker: RChainStateProto.getDefault, subBuilder: RChainStateProto.create)
     ..pc<ProcessedDeployProto>(2, 'deploys', $pb.PbFieldType.PM, subBuilder: ProcessedDeployProto.create)
-    ..a<$core.List<$core.int>>(3, 'extraBytes', $pb.PbFieldType.OY, protoName: 'extraBytes')
+    ..pc<ProcessedSystemDeployProto>(3, 'systemDeploys', $pb.PbFieldType.PM, protoName: 'systemDeploys', subBuilder: ProcessedSystemDeployProto.create)
+    ..a<$core.List<$core.int>>(4, 'extraBytes', $pb.PbFieldType.OY, protoName: 'extraBytes')
     ..hasRequiredFields = false
   ;
 
@@ -719,10 +825,12 @@ class BodyProto extends $pb.GeneratedMessage {
 
   $core.List<ProcessedDeployProto> get deploys => $_getList(1);
 
-  $core.List<$core.int> get extraBytes => $_getN(2);
-  set extraBytes($core.List<$core.int> v) { $_setBytes(2, v); }
-  $core.bool hasExtraBytes() => $_has(2);
-  void clearExtraBytes() => clearField(3);
+  $core.List<ProcessedSystemDeployProto> get systemDeploys => $_getList(2);
+
+  $core.List<$core.int> get extraBytes => $_getN(3);
+  set extraBytes($core.List<$core.int> v) { $_setBytes(3, v); }
+  $core.bool hasExtraBytes() => $_has(3);
+  void clearExtraBytes() => clearField(4);
 }
 
 class JustificationProto extends $pb.GeneratedMessage {

@@ -91,6 +91,12 @@ class DeployServiceClient extends $grpc.Client {
           ($2.BondStatusQuery value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.BondStatusResponse.fromBuffer(value));
+  static final _$exploratoryDeploy = $grpc.ClientMethod<
+          $2.ExploratoryDeployQuery, $1.ExploratoryDeployResponse>(
+      '/casper.v1.DeployService/exploratoryDeploy',
+      ($2.ExploratoryDeployQuery value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $1.ExploratoryDeployResponse.fromBuffer(value));
 
   DeployServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -205,6 +211,15 @@ class DeployServiceClient extends $grpc.Client {
         options: options);
     return $grpc.ResponseFuture(call);
   }
+
+  $grpc.ResponseFuture<$1.ExploratoryDeployResponse> exploratoryDeploy(
+      $2.ExploratoryDeployQuery request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$exploratoryDeploy, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
 }
 
 abstract class DeployServiceBase extends $grpc.Service {
@@ -314,6 +329,15 @@ abstract class DeployServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.BondStatusQuery.fromBuffer(value),
         ($1.BondStatusResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$2.ExploratoryDeployQuery,
+            $1.ExploratoryDeployResponse>(
+        'exploratoryDeploy',
+        exploratoryDeploy_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $2.ExploratoryDeployQuery.fromBuffer(value),
+        ($1.ExploratoryDeployResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$1.DeployResponse> doDeploy_Pre(
@@ -386,6 +410,12 @@ abstract class DeployServiceBase extends $grpc.Service {
     return bondStatus(call, await request);
   }
 
+  $async.Future<$1.ExploratoryDeployResponse> exploratoryDeploy_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$2.ExploratoryDeployQuery> request) async {
+    return exploratoryDeploy(call, await request);
+  }
+
   $async.Future<$1.DeployResponse> doDeploy(
       $grpc.ServiceCall call, $0.DeployDataProto request);
   $async.Future<$1.BlockResponse> getBlock(
@@ -412,4 +442,6 @@ abstract class DeployServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $2.IsFinalizedQuery request);
   $async.Future<$1.BondStatusResponse> bondStatus(
       $grpc.ServiceCall call, $2.BondStatusQuery request);
+  $async.Future<$1.ExploratoryDeployResponse> exploratoryDeploy(
+      $grpc.ServiceCall call, $2.ExploratoryDeployQuery request);
 }

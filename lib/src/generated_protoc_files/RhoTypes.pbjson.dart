@@ -478,6 +478,7 @@ const GUnforgeable$json = const {
     const {'1': 'g_private_body', '3': 1, '4': 1, '5': 11, '6': '.GPrivate', '9': 0, '10': 'gPrivateBody'},
     const {'1': 'g_deploy_id_body', '3': 2, '4': 1, '5': 11, '6': '.GDeployId', '9': 0, '10': 'gDeployIdBody'},
     const {'1': 'g_deployer_id_body', '3': 3, '4': 1, '5': 11, '6': '.GDeployerId', '9': 0, '10': 'gDeployerIdBody'},
+    const {'1': 'g_sys_auth_token_body', '3': 4, '4': 1, '5': 11, '6': '.GSysAuthToken', '9': 0, '10': 'gSysAuthTokenBody'},
   ],
   '8': const [
     const {'1': 'unf_instance'},
@@ -503,5 +504,9 @@ const GDeployerId$json = const {
   '2': const [
     const {'1': 'publicKey', '3': 1, '4': 1, '5': 12, '10': 'publicKey'},
   ],
+};
+
+const GSysAuthToken$json = const {
+  '1': 'GSysAuthToken',
 };
 

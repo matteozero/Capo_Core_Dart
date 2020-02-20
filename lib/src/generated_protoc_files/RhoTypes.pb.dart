@@ -1985,6 +1985,7 @@ enum GUnforgeable_UnfInstance {
   gPrivateBody, 
   gDeployIdBody, 
   gDeployerIdBody, 
+  gSysAuthTokenBody, 
   notSet
 }
 
@@ -1993,13 +1994,15 @@ class GUnforgeable extends $pb.GeneratedMessage {
     1 : GUnforgeable_UnfInstance.gPrivateBody,
     2 : GUnforgeable_UnfInstance.gDeployIdBody,
     3 : GUnforgeable_UnfInstance.gDeployerIdBody,
+    4 : GUnforgeable_UnfInstance.gSysAuthTokenBody,
     0 : GUnforgeable_UnfInstance.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('GUnforgeable', createEmptyInstance: create)
-    ..oo(0, [1, 2, 3])
+    ..oo(0, [1, 2, 3, 4])
     ..a<GPrivate>(1, 'gPrivateBody', $pb.PbFieldType.OM, defaultOrMaker: GPrivate.getDefault, subBuilder: GPrivate.create)
     ..a<GDeployId>(2, 'gDeployIdBody', $pb.PbFieldType.OM, defaultOrMaker: GDeployId.getDefault, subBuilder: GDeployId.create)
     ..a<GDeployerId>(3, 'gDeployerIdBody', $pb.PbFieldType.OM, defaultOrMaker: GDeployerId.getDefault, subBuilder: GDeployerId.create)
+    ..a<GSysAuthToken>(4, 'gSysAuthTokenBody', $pb.PbFieldType.OM, defaultOrMaker: GSysAuthToken.getDefault, subBuilder: GSysAuthToken.create)
     ..hasRequiredFields = false
   ;
 
@@ -2034,6 +2037,11 @@ class GUnforgeable extends $pb.GeneratedMessage {
   set gDeployerIdBody(GDeployerId v) { setField(3, v); }
   $core.bool hasGDeployerIdBody() => $_has(2);
   void clearGDeployerIdBody() => clearField(3);
+
+  GSysAuthToken get gSysAuthTokenBody => $_getN(3);
+  set gSysAuthTokenBody(GSysAuthToken v) { setField(4, v); }
+  $core.bool hasGSysAuthTokenBody() => $_has(3);
+  void clearGSysAuthTokenBody() => clearField(4);
 }
 
 class GPrivate extends $pb.GeneratedMessage {
@@ -2112,5 +2120,25 @@ class GDeployerId extends $pb.GeneratedMessage {
   set publicKey($core.List<$core.int> v) { $_setBytes(0, v); }
   $core.bool hasPublicKey() => $_has(0);
   void clearPublicKey() => clearField(1);
+}
+
+class GSysAuthToken extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('GSysAuthToken', createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  GSysAuthToken._() : super();
+  factory GSysAuthToken() => create();
+  factory GSysAuthToken.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GSysAuthToken.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GSysAuthToken clone() => GSysAuthToken()..mergeFromMessage(this);
+  GSysAuthToken copyWith(void Function(GSysAuthToken) updates) => super.copyWith((message) => updates(message as GSysAuthToken));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static GSysAuthToken create() => GSysAuthToken._();
+  GSysAuthToken createEmptyInstance() => create();
+  static $pb.PbList<GSysAuthToken> createRepeated() => $pb.PbList<GSysAuthToken>();
+  static GSysAuthToken getDefault() => _defaultInstance ??= create()..freeze();
+  static GSysAuthToken _defaultInstance;
 }
 

@@ -12,6 +12,53 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'ServiceError.pb.dart' as $3;
 import 'DeployServiceCommon.pb.dart' as $2;
 
+enum ExploratoryDeployResponse_Message {
+  error, 
+  result, 
+  notSet
+}
+
+class ExploratoryDeployResponse extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, ExploratoryDeployResponse_Message> _ExploratoryDeployResponse_MessageByTag = {
+    1 : ExploratoryDeployResponse_Message.error,
+    2 : ExploratoryDeployResponse_Message.result,
+    0 : ExploratoryDeployResponse_Message.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ExploratoryDeployResponse', package: const $pb.PackageName('casper.v1'), createEmptyInstance: create)
+    ..oo(0, [1, 2])
+    ..a<$3.ServiceError>(1, 'error', $pb.PbFieldType.OM, defaultOrMaker: $3.ServiceError.getDefault, subBuilder: $3.ServiceError.create)
+    ..a<$2.DataWithBlockInfo>(2, 'result', $pb.PbFieldType.OM, defaultOrMaker: $2.DataWithBlockInfo.getDefault, subBuilder: $2.DataWithBlockInfo.create)
+    ..hasRequiredFields = false
+  ;
+
+  ExploratoryDeployResponse._() : super();
+  factory ExploratoryDeployResponse() => create();
+  factory ExploratoryDeployResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ExploratoryDeployResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ExploratoryDeployResponse clone() => ExploratoryDeployResponse()..mergeFromMessage(this);
+  ExploratoryDeployResponse copyWith(void Function(ExploratoryDeployResponse) updates) => super.copyWith((message) => updates(message as ExploratoryDeployResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ExploratoryDeployResponse create() => ExploratoryDeployResponse._();
+  ExploratoryDeployResponse createEmptyInstance() => create();
+  static $pb.PbList<ExploratoryDeployResponse> createRepeated() => $pb.PbList<ExploratoryDeployResponse>();
+  static ExploratoryDeployResponse getDefault() => _defaultInstance ??= create()..freeze();
+  static ExploratoryDeployResponse _defaultInstance;
+
+  ExploratoryDeployResponse_Message whichMessage() => _ExploratoryDeployResponse_MessageByTag[$_whichOneof(0)];
+  void clearMessage() => clearField($_whichOneof(0));
+
+  $3.ServiceError get error => $_getN(0);
+  set error($3.ServiceError v) { setField(1, v); }
+  $core.bool hasError() => $_has(0);
+  void clearError() => clearField(1);
+
+  $2.DataWithBlockInfo get result => $_getN(1);
+  set result($2.DataWithBlockInfo v) { setField(2, v); }
+  $core.bool hasResult() => $_has(1);
+  void clearResult() => clearField(2);
+}
+
 enum DeployResponse_Message {
   error, 
   result, 

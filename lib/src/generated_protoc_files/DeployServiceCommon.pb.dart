@@ -313,6 +313,32 @@ class BondStatusQuery extends $pb.GeneratedMessage {
   void clearPublicKey() => clearField(1);
 }
 
+class ExploratoryDeployQuery extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ExploratoryDeployQuery', package: const $pb.PackageName('casper'), createEmptyInstance: create)
+    ..aOS(1, 'term')
+    ..hasRequiredFields = false
+  ;
+
+  ExploratoryDeployQuery._() : super();
+  factory ExploratoryDeployQuery() => create();
+  factory ExploratoryDeployQuery.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ExploratoryDeployQuery.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ExploratoryDeployQuery clone() => ExploratoryDeployQuery()..mergeFromMessage(this);
+  ExploratoryDeployQuery copyWith(void Function(ExploratoryDeployQuery) updates) => super.copyWith((message) => updates(message as ExploratoryDeployQuery));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ExploratoryDeployQuery create() => ExploratoryDeployQuery._();
+  ExploratoryDeployQuery createEmptyInstance() => create();
+  static $pb.PbList<ExploratoryDeployQuery> createRepeated() => $pb.PbList<ExploratoryDeployQuery>();
+  static ExploratoryDeployQuery getDefault() => _defaultInstance ??= create()..freeze();
+  static ExploratoryDeployQuery _defaultInstance;
+
+  $core.String get term => $_getS(0, '');
+  set term($core.String v) { $_setString(0, v); }
+  $core.bool hasTerm() => $_has(0);
+  void clearTerm() => clearField(1);
+}
+
 class BondInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('BondInfo', package: const $pb.PackageName('casper'), createEmptyInstance: create)
     ..aOS(1, 'validator')

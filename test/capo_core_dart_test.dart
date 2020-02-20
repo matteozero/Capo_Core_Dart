@@ -1,27 +1,28 @@
-import 'package:capo_core_dart/capo_core_dart.dart';
-import 'package:capo_core_dart/src/rnode_grpc/rnode_grpc.dart';
+import 'package:capo_core_dart/src/generated_protoc_files/DeployServiceCommon.pb.dart';
+import 'package:capo_core_dart/src/generated_protoc_files/DeployServiceV1.pbgrpc.dart';
+import 'package:capo_core_dart/src/rnode_grpc/grpc_web/channel.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:grpc/grpc.dart';
 
 import 'check_balance_rho.dart';
 
-//node1.testnet.rchain-dev.tk
 void main() async {
-  final privateKey =
-      "016120657a8f96c8ee5c50b138c70c66a2b1366f81ea41ae66065e51174e158e";
-  final publicKey = privateKeyHexToPublic(privateKey);
-  final address = RevAddress.fromPublicKey(publicKey);
-  print("address:${address.hex}");
-  String term = checkBalanceRho(address.hex);
 
-  RNodeGRPC grpc = RNodeGRPC(host: "localhost");
-  await grpc
-      .sendDeploy(deployCode: term, privateKey: privateKey)
-      .then((result) {
-    print("result:$result");
-  }).catchError((error) {
-    print("error:$error");
+  test("get_balance", () async {
+    ClientChannel _channel = HttpClientChannel("34.66.209.49",
+        port: 40403,
+        options: const ChannelOptions(
+            credentials: const ChannelCredentials.insecure()));
+
+    final gRpc = DeployServiceClient(_channel);
+    String term = checkBalanceRho(
+        "");
+
+    var params = ExploratoryDeployQuery();
+    params.term = term;
+    var response = await gRpc.exploratoryDeploy(params);
+    print("response: ${response.result.postBlockData.first.exprs.first}");
+    
   });
 
-  // test('adds one to input values', () async {
-
-  // });
 }

@@ -20,6 +20,9 @@ dependencies:
   bip32:
   uuid:
   path_provider:
+  dio: 
+
+  web_socket_channel:
 
 dev_dependencies:
   flutter_test:
