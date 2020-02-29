@@ -32,7 +32,7 @@ DeployDataProto sign(
       : Int64(DateTime.now().millisecondsSinceEpoch);
   signData.clearSigAlgorithm();
   signData.timestamp = timestamp;
-  signData.phloLimit = Int64(100000000);
+  signData.phloLimit = Int64(10e5.toInt());
   signData.phloPrice = Int64(1);
   if (blockNumber != 0) {
     signData.validAfterBlockNumber = blockNumber;

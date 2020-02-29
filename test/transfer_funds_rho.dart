@@ -5,8 +5,7 @@ String transferFundsRho(
     @required String revAddrTo,
     @required num amount}) {
   String rho = """
-    new
-    rl(\`rho:registry:lookup\`), RevVaultCh,
+    new rl(\`rho:registry:lookup\`), RevVaultCh,
     stdout(\`rho:io:stdout\`)
   in {
 

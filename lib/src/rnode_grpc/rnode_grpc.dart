@@ -44,27 +44,18 @@ class RNodeGRPC {
     var response = await _deployService.exploratoryDeploy(params);
     return response;
   }
-
-  Future<List<int>> sendDeploy(
-      {@required String deployCode, @required String privateKey}) async {
+  Future<DeployResponse> sendDeploy(
+      {@required String deployCode, @required String privateKey})  async {
     final blocksQuery = BlocksQuery();
     blocksQuery.depth = 1;
     final blocks = await _deployService.getBlocks(blocksQuery).first;
     final blockNumber = blocks.blockInfo.blockNumber;
-    print("blockNumber: $blockNumber");
 
     final data = DeployDataProto();
     data.term = deployCode;
     final signedData = rSign.sign(
         blockNumber: blockNumber, unSignData: data, privateKey: privateKey);
-    var _ = await _deployService.doDeploy(signedData);
-    var p = PrintUnmatchedSendsQuery();
-    await _proposeService.propose(p).then((proposeResult) {
-      if (proposeResult.error.messages.isNotEmpty) {
-        throw Exception(proposeResult.error.messages.first);
-      }
-    });
-    return signedData.sig;
+    return _deployService.doDeploy(signedData);
   }
 
   Future<ListeningNameDataResponse> getDataForDeploy(List<int> deployId) async {

@@ -13,7 +13,6 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'ProposeServiceCommon.pb.dart' as $0;
 import 'ProposeServiceV1.pb.dart' as $1;
 export 'ProposeServiceV1.pb.dart';
-
 class ProposeServiceClient extends $grpc.Client {
   static final _$propose =
       $grpc.ClientMethod<$0.PrintUnmatchedSendsQuery, $1.ProposeResponse>(

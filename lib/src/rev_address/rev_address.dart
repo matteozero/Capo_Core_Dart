@@ -35,7 +35,6 @@ class RevAddress {
   }
 
   static String getAddressFromEth({Uint8List ethAddressData}) {
-    print("ethAddress:${HEX.encode(ethAddressData)}");
 
     if (ethAddressData.length != 20) return "";
     final ethHash = keccak256(ethAddressData);
