@@ -9,22 +9,25 @@ import 'package:capo_core_dart/src/generated_protoc_files/RhoTypes.pb.dart';
 import 'package:capo_core_dart/src/rsign/rsign.dart' as rSign;
 import 'package:flutter/cupertino.dart';
 import 'package:grpc/grpc.dart';
+import 'package:hex/hex.dart';
 
 class RNodeGRPC {
   String host;
   int port;
-  DeployServiceClient _deployService;
-  ProposeServiceClient _proposeService;
+  DeployServiceClient deployService;
+  ProposeServiceClient proposeService;
   RNodeGRPC({@required host, port = 40401}) {
     this.host = host;
     this.port = port;
     ClientChannel _channel = ClientChannel(host,
         port: port,
         options: const ChannelOptions(
+            idleTimeout: Duration(seconds: 10),
+            connectionTimeout: Duration(seconds: 10),
             credentials: const ChannelCredentials.insecure()));
 
-    _deployService = DeployServiceClient(_channel);
-    _proposeService = ProposeServiceClient(_channel);
+    deployService = DeployServiceClient(_channel);
+    proposeService = ProposeServiceClient(_channel);
   }
 
   void switchChannelHost({@required String host, int port = 40401}) {
@@ -33,29 +36,31 @@ class RNodeGRPC {
         port: port,
         options: const ChannelOptions(
             credentials: const ChannelCredentials.insecure()));
-    _deployService = DeployServiceClient(channel);
-    _proposeService = ProposeServiceClient(channel);
+    deployService = DeployServiceClient(channel);
+    proposeService = ProposeServiceClient(channel);
   }
 
   Future<ExploratoryDeployResponse> sendExploratoryDeploy(
       {@required String deployCode}) async {
     var params = ExploratoryDeployQuery();
     params.term = deployCode;
-    var response = await _deployService.exploratoryDeploy(params);
+    var response = await deployService.exploratoryDeploy(params);
     return response;
   }
-  Future<DeployResponse> sendDeploy(
+
+  Future<Map> sendDeploy(
       {@required String deployCode, @required String privateKey})  async {
     final blocksQuery = BlocksQuery();
     blocksQuery.depth = 1;
-    final blocks = await _deployService.getBlocks(blocksQuery).first;
+    final blocks = await deployService.getBlocks(blocksQuery).first;
     final blockNumber = blocks.blockInfo.blockNumber;
 
     final data = DeployDataProto();
     data.term = deployCode;
-    final signedData = rSign.sign(
+    final DeployDataProto signedData = rSign.sign(
         blockNumber: blockNumber, unSignData: data, privateKey: privateKey);
-    return _deployService.doDeploy(signedData);
+    DeployResponse response = await deployService.doDeploy(signedData);
+    return {"deployID":HEX.encode(signedData.sig),"response":response};
   }
 
   Future<ListeningNameDataResponse> getDataForDeploy(List<int> deployId) async {
@@ -68,6 +73,6 @@ class RNodeGRPC {
     var dataAtNameQuery = DataAtNameQuery();
     dataAtNameQuery.depth = -1;
     dataAtNameQuery.name = name;
-    return _deployService.listenForDataAtName(dataAtNameQuery);
+    return deployService.listenForDataAtName(dataAtNameQuery);
   }
 }

@@ -1,29 +1,42 @@
 import 'package:capo_core_dart/capo_core_dart.dart';
+import 'package:capo_core_dart/src/generated_protoc_files/RhoTypes.pb.dart';
 import 'package:capo_core_dart/src/rnode_grpc/rnode_grpc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hex/hex.dart';
 
-import 'transfer_funds_rho.dart';
+import 'check_balance_rho.dart';
 
 void main() async {
 
-   test("transfer funds", () async {
-   print("transfer funds");
-     final privateKey =
-      "";
-  final publicKey = privateKeyHexToPublic(privateKey);
-  final address = RevAddress.fromPublicKey(publicKey);
-    String term = transferFundsRho(revAddrFrom: address.hex,revAddrTo: "1111cdQRHYBG4qmvJPZb1aMNrHZ6HvJb4Q3LTS2FdC9tvweS9c4k1",amount: 1
-        );
-
+   test("test", () async {
+   print("test");
   RNodeGRPC grpc = RNodeGRPC(host: "node0.root-shard.mainnet.rchain.coop",port: 40401);
-    //  RNodeGRPC grpc = RNodeGRPC(host: "localhost",port: 40401);
- await grpc.sendDeploy(deployCode: term, privateKey: privateKey).then((response){
+  List<int> sig = HEX.decode("3044022054c843e0d532a677edbc81a8388ca84dc8a3c427005cadcbddee3189ff2842050220651d68135ec789f25e0e2882263963c282dda1f90c47fbe0d6b3ca5b8b1cd260");
+  GDeployId gDeployId = GDeployId();
+  gDeployId.sig = sig;
+  GUnforgeable gUnforgeable = GUnforgeable();
+  gUnforgeable.gDeployIdBody = gDeployId;
+  Par par = Par();
+  par.unforgeables.add(gUnforgeable);
+  DataAtNameQuery dataAtNameQuery = DataAtNameQuery();
+  dataAtNameQuery.name = par;
+  dataAtNameQuery.depth = 10;
+  ListeningNameDataResponse listeningNameDataResponse = await grpc.deployService.listenForDataAtName(dataAtNameQuery);
+  print("listeningNameDataResponse:$listeningNameDataResponse");
+   /*
+  FindDeployQuery query = FindDeployQuery();
+  query.deployId = sig;
 
-   print("response:$response");
- }).catchError((error){
-   print("catchError: $error");
- });
-    
+  FindDeployResponse findDeployResponse = await grpc.deployService.findDeploy(query);
+
+  String blockHash = findDeployResponse.blockInfo.blockHash;
+IsFinalizedQuery finalizedQuery = IsFinalizedQuery();
+finalizedQuery.hash = blockHash;
+   IsFinalizedResponse  isFinalizedResponse = await grpc.deployService.isFinalized(finalizedQuery);
+   print("isFinalized:${isFinalizedResponse.isFinalized}");
+
+   */
+
   });
 
 }
