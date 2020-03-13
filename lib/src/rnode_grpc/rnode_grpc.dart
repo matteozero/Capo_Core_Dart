@@ -23,7 +23,6 @@ class RNodeGRPC {
         port: port,
         options: const ChannelOptions(
             idleTimeout: Duration(seconds: 10),
-            connectionTimeout: Duration(seconds: 10),
             credentials: const ChannelCredentials.insecure()));
 
     deployService = DeployServiceClient(_channel);
@@ -32,6 +31,7 @@ class RNodeGRPC {
 
   void switchChannelHost({@required String host, int port = 40401}) {
     this.host = host;
+    this.port = port;
     ClientChannel channel = ClientChannel(host,
         port: port,
         options: const ChannelOptions(
