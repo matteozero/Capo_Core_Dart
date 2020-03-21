@@ -32,16 +32,8 @@ class WalletManager {
       password: password,
       mnemonic: mnemonic,
       walletMeta: metadata,
-    ).then((keystore) {
-      try {
-        append(keystore);
-      } catch (errorData, stack) {
-        if (result.isCompleted) {
-          Zone.current.handleUncaughtError(errorData, stack);
-        } else {
-          result.completeError(errorData, stack);
-        }
-      }
+    ).then((keystore) async {
+      await append(keystore);
       if (!result.isCompleted) result.complete();
     }).catchError((errorData) {
       if (result.isCompleted) {
@@ -64,16 +56,8 @@ class WalletManager {
       password: password,
       privateKey: privateKey,
       walletMeta: metadata,
-    ).then((keystore) {
-      try {
-        append(keystore);
-      } catch (errorData) {
-        if (result.isCompleted) {
-          Zone.current.handleUncaughtError(errorData, null);
-        } else {
-          result.completeError(errorData, null);
-        }
-      }
+    ).then((keystore) async {
+      await append(keystore);
       if (!result.isCompleted) result.complete();
     }).catchError((errorData) {
       if (result.isCompleted) {
