@@ -26,6 +26,7 @@ class Storage {
     final dir = await getApplicationDocumentsDirectory();
     final walletDirectory = Directory("${dir.path}/wallets");
     final exists = await walletDirectory.exists();
+    print(walletDirectory.toString());
     if (exists) {
       return walletDirectory.path;
     } else {
@@ -63,10 +64,10 @@ class Storage {
     return file.deleteSync();
   }
 
-  Future<WalletManager> tryToLaodWalletManager() async {
+  Future<Map> tryToLaodWalletManager() async {
     Map map = await loadJson(identityFileName);
-    if (map == null) return null;
-    return WalletManager.fromMap(map);
+    return map;
+    // if (map == null) return null;
   }
 
   Future<List<BasicWallet>> loadWalletByIDs(List walletIDs) async {

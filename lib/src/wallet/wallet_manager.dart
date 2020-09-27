@@ -1,88 +1,104 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:capo_core_dart/capo_core_dart.dart';
 import 'package:capo_core_dart/src/utils/app_error.dart';
 import 'package:capo_core_dart/src/wallet//srorage/storage.dart';
 import 'package:capo_core_dart/src/wallet/keystore/keystore.dart';
 import 'package:capo_core_dart/src/wallet/keystore/rev_keystore.dart';
 import 'package:capo_core_dart/src/wallet/keystore/rev_mnemonic_keystore.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'basic_wallet.dart';
-import 'wallet_meta.dart';
+import 'package:capo_token_core_plugin/capo_token_core_plugin.dart';
 
 class WalletManager {
+  Future<bool> ready;
   BasicWallet currentWallet;
-  List<BasicWallet> wallets;
-  List<String> walletsID;
+  List<BasicWallet> wallets = [];
+  List<String> walletsID = [];
 
-  WalletManager({this.currentWallet, this.wallets, this.walletsID});
+  factory WalletManager() =>_getInstance();
+  static WalletManager get shared => _getInstance();
+  static WalletManager _instance;
 
-  factory WalletManager.init() {
-    return WalletManager(wallets: [], walletsID: []);
-  }
-
-  Future<void> importFromMnemonic({
-    @required String password,
-    @required String mnemonic,
-    @required WalletMeta metadata,
-    String path,
-  }) async {
-    final Completer<void> result = Completer<void>();
-    REVMnemonicKeystore.createInBackground(
-      password: password,
-      mnemonic: mnemonic,
-      walletMeta: metadata,
-    ).then((keystore) async {
-      await append(keystore);
-      if (!result.isCompleted) result.complete();
-    }).catchError((errorData) {
-      if (result.isCompleted) {
-        Zone.current.handleUncaughtError(errorData, null);
-      } else {
-        result.completeError(errorData, null);
-      }
-    });
-    await result.future;
-    return result.future;
-  }
-
-  Future<void> importFromPrivateKey({
-    @required String password,
-    @required String privateKey,
-    @required WalletMeta metadata,
-  }) async {
-    final Completer<void> result = Completer<void>();
-    REVKeystore.createInBackground(
-      password: password,
-      privateKey: privateKey,
-      walletMeta: metadata,
-    ).then((keystore) async {
-      await append(keystore);
-      if (!result.isCompleted) result.complete();
-    }).catchError((errorData) {
-      if (result.isCompleted) {
-        Zone.current.handleUncaughtError(errorData, null);
-      } else {
-        result.completeError(errorData, null);
-      }
-    });
-    await result.future;
-    return result.future;
-  }
-
-  static Future<WalletManager> tryToLaodWalletManager() {
-    return Storage.instance.tryToLaodWalletManager();
-  }
-
-  static Future<WalletManager> fromMap(Map map) async {
+  WalletManager._internal() {
+    ready = new Future<bool>(() async {
+      // await WalletManager.tryToLaodWalletManager();
+      Map map = await Storage.instance.tryToLaodWalletManager();
+        if(map == null){
+      return true;
+    }
     final currentWalletMap = map['currentWallet'];
     final currentWallet = BasicWallet.fromMap(currentWalletMap);
     final walletsIDList = map['walletsID'] as List;
     List<String> walletsID = walletsIDList.map((i) => i as String).toList();
     final wallets = await Storage.instance.loadWalletByIDs(walletsID);
-    return WalletManager(
-        currentWallet: currentWallet, wallets: wallets, walletsID: walletsID);
+    this.currentWallet = currentWallet;
+    this.wallets = wallets;
+    this.walletsID = walletsID;
+
+      return true;
+    });
   }
+
+
+  static WalletManager _getInstance() {
+    if (_instance == null) {
+      _instance = new WalletManager._internal();
+    }
+    return _instance;
+  }
+
+ static Future importFromMnemonic({
+    @required String password,
+    @required String mnemonic,
+    @required String name
+
+  }) async {
+
+  String keystoreString = await CapoTokenCorePlugin.importMnenonic(mnemonic, password);
+  Map map = json.decode(keystoreString);
+
+  REVMnemonicKeystore keystore = REVMnemonicKeystore.fromMap(map);
+  keystore.meta.name = name;
+  String revAddress = RevAddress.getAddressFromEthAddress(ethAddress: keystore.address);
+  keystore.address = revAddress;
+  await WalletManager.shared.append(keystore);
+
+  }
+
+  static Future importFromPrivateKey({
+    @required String password,
+    @required String privateKey,
+    @required String name
+
+  }) async {
+      String keystoreString = await CapoTokenCorePlugin.importPrivateKey(privateKey, password);
+      Map map = json.decode(keystoreString);
+      REVKeystore keystore = REVKeystore.fromMap(map);
+      keystore.meta.name = name;
+      String revAddress = RevAddress.getAddressFromEthAddress(ethAddress: keystore.address);
+      keystore.address = revAddress;
+      await WalletManager.shared.append(keystore);
+  }
+
+
+  
+ static Future importFromKeystore({
+    @required String password,
+    @required String keystoreString,
+    @required String name
+
+  }) async {
+      String importKeystore = await CapoTokenCorePlugin.importKeystore(keystoreString, password);
+      Map map = json.decode(importKeystore);
+      REVKeystore keystore = REVKeystore.fromMap(map);
+      keystore.meta.name = name;
+      String revAddress = RevAddress.getAddressFromEthAddress(ethAddress: keystore.address);
+      keystore.address = revAddress;
+      await WalletManager.shared.append(keystore);
+  }
+
 
   append(Keystore keystore) async {
     final wallet = BasicWallet(keystore: keystore);
@@ -97,7 +113,7 @@ class WalletManager {
   }
 
   BasicWallet findWalletByAddress(String address) {
-    if (wallets.isEmpty) return null;
+    if (wallets == null || wallets.isEmpty) return null;
     final wallet = wallets.firstWhere((wallet) {
       return wallet.address == address;
     }, orElse: () {

@@ -67,6 +67,49 @@ class ScryptKeyDerivator extends _KeyDerivator {
   final String name = 'scrypt';
 }
 
+
+
+class Pbkdf2KeyDerivator extends _KeyDerivator {
+  final int dklen;
+  final int c;
+  final String prf;
+  final String salt;
+
+  Pbkdf2KeyDerivator(this.dklen, this.c, this.prf, this.salt);
+ 
+
+  factory Pbkdf2KeyDerivator.fromMap(Map map) {
+    final dklen = map['dklen'];
+    final c = map['c'];
+    final prf = map['prf'];
+    final salt = map['salt'];
+    return Pbkdf2KeyDerivator(dklen, c, prf, salt);
+  }
+
+  // @override
+  // Uint8List deriveKey(String password) {
+  //   return Uint8List.fromList([]);
+  // }
+
+  @override
+  Map<String, dynamic> encode() {
+    return {
+      'dklen': dklen,
+      'c': c,
+      'prf': prf,
+      'salt': salt,
+    };
+  }
+
+  @override
+  final String name = 'pbkdf2';
+
+  @override
+  Uint8List deriveKey(String password) {
+    throw UnimplementedError();
+  }
+}
+
 class Cipherparams {
   String iv;
   Cipherparams(this.iv);
@@ -97,24 +140,10 @@ class Crypto {
       @required this.cipherparams,
       @required this.mac,
       @required this.cipherText,
-      this.kdf = "scrypt",
-      this.cipher = "aes-128-ctr"});
+        @required this.kdf,
+        @required this.cipher}
+        );
 
-  factory Crypto.init({String password, String privateKey}) {
-    final cipherparams = Cipherparams.initRandomIV();
-    final keyDerivator = ScryptKeyDerivator.deafult();
-    final derivedKey = keyDerivator.deriveKey(password);
-    final encryptor = Crypto.encryptor(Uint8List.view(derivedKey.buffer, 0, 16), HEX.decode(cipherparams.iv));
-    final cipherText =
-        encryptor.process(HEX.decode(privateKey));
-    final mac = generateMac(derivedKey, cipherText);
-
-    return Crypto(
-        keyDerivator: keyDerivator,
-        cipherparams: cipherparams,
-        mac: mac,
-        cipherText: HEX.encode(cipherText));
-  }
 
   Uint8List derivedKey(String password) {
     return keyDerivator.deriveKey(password);
@@ -160,12 +189,19 @@ class Crypto {
   factory Crypto.fromMap(Map map) {
     final cipher = map['cipher'];
     final ciphertext = map['ciphertext'];
-    final kdf = map['kdf'];
+    final String kdf = map['kdf'];
     final mac = map['mac'];
     final cipherparamsMap = map['cipherparams'] as Map<String, dynamic>;
     final kdfparamsMap = map['kdfparams'] as Map<String, dynamic>;
     final cipherparams = Cipherparams.fromMap(cipherparamsMap);
-    final keyDerivator = ScryptKeyDerivator.fromMap(kdfparamsMap);
+    _KeyDerivator keyDerivator;
+    if(kdf == "pbkdf2"){
+       keyDerivator = Pbkdf2KeyDerivator.fromMap(kdfparamsMap);
+    }else if(kdf == "scrypt"){
+      keyDerivator = ScryptKeyDerivator.fromMap(kdfparamsMap);
+    }else {
+      throw AppErrorType.operationUnsupported;
+    }
     return Crypto(
         cipherText: ciphertext,
         cipherparams: cipherparams,

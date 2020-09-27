@@ -12,7 +12,7 @@ String transferFundsRho(
     rl!(\`rho:rchain:revVault\`, *RevVaultCh) |
     for (@(_, RevVault) <- RevVaultCh) {
 
-      stdout!(("3.transfer_funds.rho")) |
+      stdout!(("capo.transfer_funds.rho")) |
 
       match ("$revAddrFrom", "$revAddrTo", $amount) {
         (from, to, amount) => {

@@ -1,35 +1,35 @@
 import 'package:flutter/cupertino.dart';
 
-enum Source { importFromPrivateKey, importFromMnemonic, create }
+// enum Source { importFromPrivateKey, importFromMnemonic, keystore }
 
 class WalletMeta {
-  static String key = "CapoMeta";
+  static String key = "metadata";
   String name;
-  Source source;
+  String from;
+  String chainType;
+  String network;
   int timestamp;
   WalletMeta(
-      {@required this.name, @required this.source, @required this.timestamp});
+      {@required this.name, @required this.from, @required this.timestamp,this.chainType,this.network});
 
   factory WalletMeta.fromMap(Map map) {
     final name = map['name'];
-    final sourceStr = map['source'] as String;
+    final from = map['from'] as String;
     final timestamp = map['timestamp'];
-    Source source;
-    if (sourceStr == "importFromPrivateKey") {
-      source = Source.importFromPrivateKey;
-    } else if (sourceStr == "importFromMnemonic") {
-      source = Source.importFromMnemonic;
-    } else if (sourceStr == "create") {
-      source = Source.create;
-    }
-    return WalletMeta(name: name, source: source, timestamp: timestamp);
+    final chainType = map['chainType'];
+    final network = map['network'];
+
+    return WalletMeta(name: name, from: from, timestamp: timestamp,chainType: chainType,network: network);
   }
 
   Map encode() {
     return {
       'name': name,
-      'source': source.toString().split(".").last,
-      "timestamp": timestamp
+      'from': from,
+      "timestamp": timestamp,
+      "chainType":chainType,
+      "network":network
+
     };
   }
 }

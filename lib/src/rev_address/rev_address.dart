@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 import 'package:bs58check/src/utils/base.dart';
 import 'package:capo_core_dart/src/utils/keccac.dart';
+import 'package:capo_core_dart/src/utils/numbers.dart';
+import 'package:flutter/material.dart';
 import 'package:hex/hex.dart';
 import "package:pointycastle/export.dart";
 
@@ -45,5 +47,11 @@ class RevAddress {
     final checksum = Uint8List.view(blake2b.process(payloadBytes).buffer, 0, 4);
     final address = base58.encode(Uint8List.fromList(payloadBytes + checksum));
     return address;
+  }
+
+
+    static String getAddressFromEthAddress({@required String ethAddress}) {
+    final Uint8List bytes = hexToBytes(ethAddress);
+    return getAddressFromEth(ethAddressData: bytes);
   }
 }

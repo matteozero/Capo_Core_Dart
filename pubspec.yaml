@@ -20,9 +20,10 @@ dependencies:
   bip32:
   uuid:
   path_provider:
-  dio: 
 
-  web_socket_channel:
+  capo_token_core_plugin:
+    git: https://github.com/matteozero/capo_token_core_plugin.git
+  
 
 dev_dependencies:
   flutter_test:

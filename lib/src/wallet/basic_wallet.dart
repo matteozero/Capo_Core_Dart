@@ -6,7 +6,9 @@ import 'package:capo_core_dart/src/wallet/keystore/keystore.dart';
 import 'package:capo_core_dart/src/wallet/keystore/rev_keystore.dart';
 import 'package:capo_core_dart/src/wallet/keystore/rev_mnemonic_keystore.dart';
 import 'package:capo_core_dart/src/wallet/wallet_meta.dart';
+import 'package:capo_token_core_plugin/capo_token_core_plugin.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:convert' as convert;
 
 class BasicWallet {
   String get walletID {
@@ -24,11 +26,11 @@ class BasicWallet {
 
   BasicWallet({@required this.keystore});
   factory BasicWallet.fromMap(Map map) {
-    final metaMap = map[WalletMeta.key];
-    final meta = WalletMeta.fromMap(metaMap);
-    final source = meta.source;
+    final Map metaMap = map[WalletMeta.key];
+    final WalletMeta meta = WalletMeta.fromMap(metaMap);
+    final String source = meta.from;
     Keystore keystore;
-    if (source == Source.create || source == Source.importFromMnemonic) {
+    if (source == "MNEMONIC") {
       keystore = REVMnemonicKeystore.fromMap(map);
     } else {
       keystore = REVKeystore.fromMap(map);
@@ -45,22 +47,16 @@ class BasicWallet {
     return json.encode(map);
   }
 
-  Future<String> exportPrivateKey(String password) async {
-    if (await verifyPassword(password)) {
-      return keystore.decryptPrivateKey(password);
-    }
-    throw AppError(type: AppErrorType.passwordIncorrect);
+  Future<String> exportPrivateKey({@required String password}) async {
+        return keystore.decryptPrivateKey(password);
   }
 
   Future<String> exportMnemonic(String password) async {
-    if (await verifyPassword(password)) {
-      if (keystore is REVMnemonicKeystore) {
+    if (keystore is REVMnemonicKeystore) {
         return (keystore as REVMnemonicKeystore).decryptMnemonic(password);
       } else {
         throw AppError(type: AppErrorType.operationUnsupported);
       }
-    }
-    throw AppError(type: AppErrorType.passwordIncorrect);
   }
 
   Future<bool> verifyPassword(String password) {
