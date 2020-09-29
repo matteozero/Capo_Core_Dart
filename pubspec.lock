@@ -48,7 +48,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a38304e7e6d40828d4fd89d860b26e495d3eff9e
+      resolved-ref: "3fbe6a946719ed105264cddf501fe3208dea6992"
       url: "https://github.com/matteozero/capo_token_core_plugin.git"
     source: git
     version: "0.0.1"
