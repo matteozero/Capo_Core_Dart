@@ -10,7 +10,3 @@ export 'src/wallet/keystore/rev_keystore.dart';
 export 'src/wallet/keystore/rev_mnemonic_keystore.dart';
 export 'src/wallet/wallet_manager.dart';
 export 'src/wallet/wallet_meta.dart';
-export 'src/rnode_grpc/rnode_grpc.dart';
-
-export 'src/generated_protoc_files/DeployServiceCommon.pb.dart';
-export 'src/generated_protoc_files/DeployServiceV1.pb.dart';
