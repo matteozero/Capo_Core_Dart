@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  hex:
-  bs58check:
   bip39:
   bip32:
   uuid:

@@ -30,7 +30,7 @@ packages:
     source: hosted
     version: "2.0.0"
   bs58check:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: bs58check
       url: "https://pub.flutter-io.cn"
@@ -119,7 +119,7 @@ packages:
     source: sdk
     version: "0.0.0"
   hex:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: hex
       url: "https://pub.flutter-io.cn"
