@@ -1,7 +1,6 @@
 import 'package:bs58check/bs58check.dart';
 import 'package:capo_core_dart/capo_core_dart.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grpc/grpc.dart';
 import 'package:hex/hex.dart';
 import 'package:capo_core_dart/src/rev_address/rev_address.dart';
 import 'check_balance_rho.dart';

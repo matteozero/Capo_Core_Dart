@@ -10,10 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  protobuf:
-  grpc:
-  pointycastle:
-  asn1lib:
   hex:
   bs58check:
   bip39:
