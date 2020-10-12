@@ -16,12 +16,12 @@ abstract class Keystore {
   WalletMeta meta;
 
   Future<bool> verify(String password) async {
-    final keystore = convert.jsonEncode(this.export());
+    final keystore = convert.jsonEncode(this.dump());
     return CapoTokenCorePlugin.verifyPassword(keystore, password);
   }
 
   Future<String> decryptPrivateKey(String password) async {
-    final keystore = convert.jsonEncode(this.export());
+    final keystore = convert.jsonEncode(this.dump());
     return CapoTokenCorePlugin.exportPrivateKey(keystore, password);
   }
 
