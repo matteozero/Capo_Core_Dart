@@ -17,7 +17,9 @@ dependencies:
 
   capo_token_core_plugin:
     git: https://github.com/matteozero/capo_token_core_plugin.git
-  
+
+#  capo_token_core_plugin:
+#    path: /Users/matteo/Desktop/Capo/capo_token_core_plugin
 
 dev_dependencies:
   flutter_test:
