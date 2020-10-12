@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:convert' as convert;
 
+import 'package:capo_core_dart/capo_core_dart.dart';
 import 'package:capo_core_dart/src/utils/uuid.dart';
 import 'package:capo_core_dart/src/wallet/keystore/crypto.dart';
 import 'package:capo_core_dart/src/wallet/keystore/encrypted_message.dart';
@@ -21,7 +22,8 @@ abstract class Keystore {
   }
 
   Future<String> decryptPrivateKey(String password) async {
-    final keystore = convert.jsonEncode(this.dump());
+    REVKeystore revKeystore = REVKeystore.fromMap(this.dump());
+    final keystore = convert.jsonEncode(revKeystore.dump());
     return CapoTokenCorePlugin.exportPrivateKey(keystore, password);
   }
 
