@@ -13,6 +13,8 @@ dependencies:
   bip39:
   bip32:
   uuid:
+  keccak:
+    git: https://github.com/matteozero/keccak.git
   path_provider:
 
   capo_token_core_plugin:
